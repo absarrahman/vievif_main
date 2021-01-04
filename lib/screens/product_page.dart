@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
@@ -18,6 +20,8 @@ class _ProductPageState extends State<ProductPage> {
   int _pgNumber = 1;
 
   ScrollController _scrollController = ScrollController();
+  TextEditingController _searchItemController = TextEditingController();
+  Timer _debounce;
 
   final _orderByMenuItem = [
     SortType('Popularity', 'popularity', 'asc'),
@@ -41,6 +45,18 @@ class _ProductPageState extends State<ProductPage> {
         productProvider.getProducts(++_pgNumber);
       }
     });
+
+    _searchItemController.addListener(_onSearchChanged);
+  }
+
+  _onSearchChanged() {
+    var productProvider = Provider.of<ProductProvider>(context, listen: false);
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      productProvider.resetStreams();
+      productProvider.setLoadingStatus(LoadStatus.BEGIN);
+      productProvider.getProducts(_pgNumber,categoryID: widget.categoryId.toString(),searchProduct: _searchItemController.text);
+    });
   }
 
   @override
@@ -49,26 +65,38 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         backgroundColor: kYellowish,
       ),
-      body: Consumer<ProductProvider>(builder: (context, productModel, child) {
-        if (productModel.productList.length != null &&
-            productModel.getLoadStatus() != LoadStatus.BEGIN &&
-            productModel.productList.length > 0) {
-          print(productModel.productList[0].images[0].src);
-          return _productList(productModel.productList, context,
-              productModel.getLoadStatus() == LoadStatus.LOADING);
-        }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CommonWidgets.loading(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('If it is taking long then there are no products available'),
-            ),
-            Text('or you are facing bandwidth issues'),
-          ],
-        );
-      }),
+      body: Column(
+        children: [
+          itemPreference(),
+          Container(
+            child: Consumer<ProductProvider>(builder: (context, productModel, child) {
+              if (productModel.productList.length != null &&
+                  productModel.getLoadStatus() != LoadStatus.BEGIN &&
+                  productModel.productList.length > 0) {
+                print(productModel.productList[0].images[0].src);
+                return Flexible(
+                  child: _productList(productModel.productList, context,
+                      productModel.getLoadStatus() == LoadStatus.LOADING),
+                );
+              }  else if (productModel.productList.length == 0 && productModel.getLoadStatus()==LoadStatus.DONE) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(child: Text('No items available',style:
+                      TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),),),
+                  ],
+                );
+              }
+              print('Loading status is ${productModel.getLoadStatus()==LoadStatus.DONE}');
+              print('Length is ${productModel.productList.length}');
+              return CommonWidgets.loading();
+            }),
+          ),
+        ],
+      ),
     );
   }
 
@@ -80,7 +108,6 @@ class _ProductPageState extends State<ProductPage> {
       alignment: Alignment.centerLeft,
       child: Column(
         children: [
-          searchField(),
           Flexible(
             child: GridView.count(
               controller: _scrollController,
@@ -150,7 +177,7 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  Widget searchField() {
+  Widget itemPreference() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -159,7 +186,8 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             Flexible(
               child: TextField(
-                decoration: new InputDecoration(
+                controller: _searchItemController,
+                decoration: InputDecoration(
                   hintText: 'Recherche',
                   hintStyle: TextStyle(
                     fontSize: 18,
@@ -170,7 +198,7 @@ class _ProductPageState extends State<ProductPage> {
                     color: kRedColor,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: kRedColor),
+                    borderSide: BorderSide(color: kYellowish),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   border: OutlineInputBorder(
