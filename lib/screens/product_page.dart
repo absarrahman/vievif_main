@@ -80,34 +80,41 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         backgroundColor: kYellowish,
       ),
-      body: Container(
-        child:
-            Consumer<ProductProvider>(builder: (context, productModel, child) {
-          if (productModel.productList.length != null &&
-              productModel.getLoadStatus() != LoadStatus.BEGIN &&
-              productModel.productList.length > 0) {
-            print(productModel.productList[0].images[0].src);
-            return _productList(productModel.productList, context,
-                productModel.getLoadStatus() == LoadStatus.LOADING);
-          } else if (productModel.productList.length == 0 &&
-              productModel.getLoadStatus() == LoadStatus.DONE) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text(
-                    'No items available',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            );
-          }
-          print(
-              'Loading status is ${productModel.getLoadStatus() == LoadStatus.DONE}');
-          print('Length is ${productModel.productList.length}');
-          return CommonWidgets.loading();
-        }),
+      body: Column(
+        children: [
+          itemPreference(),
+          Container(
+            child:
+                Consumer<ProductProvider>(builder: (context, productModel, child) {
+              if (productModel.productList.length != null &&
+                  productModel.getLoadStatus() != LoadStatus.BEGIN &&
+                  productModel.productList.length > 0) {
+                print(productModel.productList[0].images[0].src);
+                return Flexible(
+                  child: _productList(productModel.productList, context,
+                      productModel.getLoadStatus() == LoadStatus.LOADING),
+                );
+              } else if (productModel.productList.length == 0 &&
+                  productModel.getLoadStatus() == LoadStatus.DONE) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'No items available',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              print(
+                  'Loading status is ${productModel.getLoadStatus() == LoadStatus.DONE}');
+              print('Length is ${productModel.productList.length}');
+              return CommonWidgets.loading();
+            }),
+          ),
+        ],
       ),
     );
   }
@@ -120,7 +127,6 @@ class _ProductPageState extends State<ProductPage> {
       alignment: Alignment.centerLeft,
       child: Column(
         children: [
-          itemPreference(),
           Flexible(
             child: GridView.count(
               controller: _scrollController,

@@ -18,7 +18,7 @@ class ProductProvider with ChangeNotifier {
   getLoadStatus() => _loadStatus;
 
   ProductProvider() {
-    _sortType = SortType('Latest', 'modified', 'asc');
+    _sortType = SortType('Popularity', 'popularity', 'asc');
   }
 
   resetStreams() {
