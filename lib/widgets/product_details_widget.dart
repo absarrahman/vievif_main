@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/utils/colors.dart';
+import 'package:vievif/widgets/common_widgets.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
-
   final ProductModel product;
-
 
   ProductDetailsWidget(this.product);
 
@@ -19,7 +19,14 @@ class ProductDetailsWidget extends StatelessWidget {
           /*Center(
               child: Text(widget.product.name),
             ),*/
-          productAllImages(context, product.images),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              productAllImages(context, product.images),
+              CommonWidgets.onSale(product),
+            ],
+          ),
         ],
       ),
     );
@@ -56,16 +63,18 @@ class ProductDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(child: IconButton(
-            onPressed: () => _carouselController.previousPage(),
-            icon: Icon(Icons.chevron_left),
-          ),
+          Positioned(
+            child: IconButton(
+              onPressed: () => _carouselController.previousPage(),
+              icon: Icon(Icons.chevron_left),
+            ),
             top: 125,
           ),
-          Positioned(child: IconButton(
-            onPressed: ()=> _carouselController.nextPage(),
-            icon: Icon(Icons.chevron_right),
-          ),
+          Positioned(
+            child: IconButton(
+              onPressed: () => _carouselController.nextPage(),
+              icon: Icon(Icons.chevron_right),
+            ),
             top: 120,
             left: size.width - 50,
           ),

@@ -86,17 +86,17 @@ class _ProductPageState extends State<ProductPage> {
           itemPreference(),
           Container(
             child: Consumer<ProductProvider>(
-                builder: (context, productModel, child) {
-              if (productModel.productList.length != null &&
-                  productModel.getLoadStatus() != LoadStatus.BEGIN &&
-                  productModel.productList.length > 0) {
-                print(productModel.productList[0].images[0].src);
+                builder: (context, productProvider, child) {
+              if (productProvider.productList.length != null &&
+                  productProvider.getLoadStatus() != LoadStatus.BEGIN &&
+                  productProvider.productList.length > 0) {
+                print(productProvider.productList[0].images[0].src);
                 return Flexible(
-                  child: _productList(productModel.productList, context,
-                      productModel.getLoadStatus() == LoadStatus.LOADING),
+                  child: _productList(productProvider.productList, context,
+                      productProvider.getLoadStatus() == LoadStatus.LOADING),
                 );
-              } else if (productModel.productList.length == 0 &&
-                  productModel.getLoadStatus() == LoadStatus.DONE) {
+              } else if (productProvider.productList.length == 0 &&
+                  productProvider.getLoadStatus() == LoadStatus.DONE) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -111,8 +111,8 @@ class _ProductPageState extends State<ProductPage> {
                 );
               }
               print(
-                  'Loading status is ${productModel.getLoadStatus() == LoadStatus.DONE}');
-              print('Length is ${productModel.productList.length}');
+                  'Loading status is ${productProvider.getLoadStatus() == LoadStatus.DONE}');
+              print('Length is ${productProvider.productList.length}');
               return CommonWidgets.loading();
             }),
           ),
@@ -137,8 +137,7 @@ class _ProductPageState extends State<ProductPage> {
               scrollDirection: Axis.vertical,
               physics: ClampingScrollPhysics(),
               children: itemList
-                  .map(
-                      (ProductModel productModel) => _productCard(productModel))
+                  .map((ProductModel product) => _productCard(product))
                   .toList(),
             ),
           ),
@@ -159,45 +158,59 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  Widget _productCard(ProductModel productModel) {
+  Widget _productCard(ProductModel product) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 500,
+        height: 700,
         width: 200,
         child: GestureDetector(
-          onTap: () => _navigateProductPage(productModel),
+          onTap: () => _navigateProductPage(product),
           child: Material(
-            elevation: 7,
-            color: kBackgroundWhite,
-            borderOnForeground: true,
-            borderRadius: BorderRadius.circular(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 2.0),
-                  child: Image.network(
-                    'https:${productModel.images[0].src}',
-                    height: 100,
-                    fit: BoxFit.cover,
+              elevation: 7,
+              color: kBackgroundWhite,
+              borderOnForeground: true,
+              borderRadius: BorderRadius.circular(10),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Image.network(
+                            'https:${product.images[0].src}',
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${product.name}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('${product.ratingCount}'),
+                        ),
+                        //CommonWidgets.onSale(product),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    '${productModel.name}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Positioned(
+                    top: 5,
+                    child: Container(
+                      height: 80,
+                      width: 90,
+                      child: CommonWidgets.onSale(product),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${productModel.ratingCount}'),
-                ),
-              ],
-            ),
-          ),
+                ],
+              )),
         ),
       ),
     );
