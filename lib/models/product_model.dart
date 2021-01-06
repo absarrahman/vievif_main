@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:vievif/models/store_model.dart';
+
 ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
 
 String productModelToJson(ProductModel data) => json.encode(data.toJson());
@@ -147,7 +149,7 @@ class ProductModel {
   int menuOrder;
   List<MetaDatum> metaData;
   String yoastHead;
-  Store store;
+  StoreModel store;
   bool isPurchased;
   List<dynamic> attributesData;
   ProductUnits productUnits;
@@ -222,7 +224,9 @@ class ProductModel {
     menuOrder: json["menu_order"],
     metaData: List<MetaDatum>.from(json["meta_data"].map((x) => MetaDatum.fromJson(x))),
     yoastHead: json["yoast_head"],
-    store: Store.fromJson(json["store"]),
+    //store: Store.fromJson(json["store"]),
+    store: StoreModel.fromJson(json["store"]),
+    //store: json["store"].toString(),
     isPurchased: json["is_purchased"],
     attributesData: List<dynamic>.from(json["attributesData"].map((x) => x)),
     productUnits: ProductUnits.fromJson(json["product_units"]),
@@ -299,6 +303,7 @@ class ProductModel {
     "meta_data": List<dynamic>.from(metaData.map((x) => x.toJson())),
     "yoast_head": yoastHead,
     "store": store.toJson(),
+   // "store": store,
     "is_purchased": isPurchased,
     "attributesData": List<dynamic>.from(attributesData.map((x) => x)),
     "product_units": productUnits.toJson(),
@@ -544,7 +549,7 @@ class ProductUnits {
   };
 }
 
-class Store {
+/*class Store {
   Store();
 
   factory Store.fromJson(Map<String, dynamic> json) => Store(
@@ -552,7 +557,7 @@ class Store {
 
   Map<String, dynamic> toJson() => {
   };
-}
+}*/
 
 class WcfmProductPolicyData {
   WcfmProductPolicyData({

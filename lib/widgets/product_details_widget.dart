@@ -13,7 +13,7 @@ class ProductDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Attributes ${product.store.toJson()}');
+    debugPrint('Attributes ${product.store.vendorDisplayName}');
     return Container(
       child: Stack(
         children: [

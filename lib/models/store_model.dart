@@ -83,11 +83,11 @@ class StoreModel {
     vendorListBanner: json["vendor_list_banner"],
     storeRating: json["store_rating"],
     emailVerified: json["email_verified"],
-    vendorAdditionalInfo: List<VendorAdditionalInfo>.from(json["vendor_additional_info"].map((x) => VendorAdditionalInfo.fromJson(x))),
-    membershipDetails: MembershipDetails.fromJson(json["membership_details"]),
+    //vendorAdditionalInfo: List<VendorAdditionalInfo>.from(json["vendor_additional_info"].map((x) => VendorAdditionalInfo.fromJson(x))),
+    //membershipDetails: MembershipDetails.fromJson(json["membership_details"]),
     vendorDescription: json["vendor_description"],
-    vendorPolicies: VendorPolicies.fromJson(json["vendor_policies"]),
-    storeTabHeadings: StoreTabHeadings.fromJson(json["store_tab_headings"]),
+   // vendorPolicies: VendorPolicies.fromJson(json["vendor_policies"]),
+   // storeTabHeadings: StoreTabHeadings.fromJson(json["store_tab_headings"]),
   );
 
   Map<String, dynamic> toJson() => {
