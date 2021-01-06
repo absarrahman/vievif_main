@@ -140,7 +140,7 @@ class ProductModel {
   List<Category> categories;
   List<dynamic> tags;
   List<ImageModel> images;
-  List<dynamic> attributes;
+  List<AttributeModel> attributes;
   List<dynamic> defaultAttributes;
   List<dynamic> variations;
   List<dynamic> groupedProducts;
@@ -215,7 +215,7 @@ class ProductModel {
     categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
     tags: List<dynamic>.from(json["tags"].map((x) => x)),
     images: List<ImageModel>.from(json["images"].map((x) => ImageModel.fromJson(x))),
-    attributes: List<dynamic>.from(json["attributes"].map((x) => x)),
+    attributes: List<AttributeModel>.from(json["attributes"].map((x) => AttributeModel.fromJson(x))),
     defaultAttributes: List<dynamic>.from(json["default_attributes"].map((x) => x)),
     variations: List<dynamic>.from(json["variations"].map((x) => x)),
     groupedProducts: List<dynamic>.from(json["grouped_products"].map((x) => x)),
@@ -597,3 +597,40 @@ class WcfmProductPolicyData {
     "tab_title": tabTitle,
   };
 }
+
+class AttributeModel {
+  AttributeModel({
+    this.id,
+    this.name,
+    this.position,
+    this.visible,
+    this.variation,
+    this.options,
+  });
+
+  int id;
+  String name;
+  int position;
+  bool visible;
+  bool variation;
+  List<String> options;
+
+  factory AttributeModel.fromJson(Map<String, dynamic> json) => AttributeModel(
+    id: json["id"],
+    name: json["name"],
+    position: json["position"],
+    visible: json["visible"],
+    variation: json["variation"],
+    options: List<String>.from(json["options"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "position": position,
+    "visible": visible,
+    "variation": variation,
+    "options": List<dynamic>.from(options.map((x) => x)),
+  };
+}
+

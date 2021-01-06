@@ -20,9 +20,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       appBar: AppBar(
         backgroundColor: kYellowish,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top:8.0),
-        child: ProductDetailsWidget(widget.product),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top:8.0),
+          child: ProductDetailsWidget(widget.product),
+        ),
       ),
     );
   }

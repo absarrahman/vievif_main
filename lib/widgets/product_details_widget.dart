@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vievif/models/product_model.dart';
-import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
@@ -13,21 +13,36 @@ class ProductDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Attributes ${product.store.toJson()}');
     return Container(
       child: Stack(
         children: [
-          /*Center(
-              child: Text(widget.product.name),
-            ),*/
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               productAllImages(context, product.images),
               CommonWidgets.onSale(product),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: itemName(product),
+              ),
+              SizedBox(height: 20,),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget itemName(ProductModel product) {
+    return Center(
+      child: Text(
+        product.name,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
       ),
     );
   }
