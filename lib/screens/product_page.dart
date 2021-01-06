@@ -44,7 +44,8 @@ class _ProductPageState extends State<ProductPage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         productProvider.setLoadingStatus(LoadStatus.LOADING);
-        productProvider.getProducts(++_pgNumber,categoryID: widget.categoryId.toString());
+        productProvider.getProducts(++_pgNumber,
+            categoryID: widget.categoryId.toString());
       }
     });
 
@@ -84,8 +85,8 @@ class _ProductPageState extends State<ProductPage> {
         children: [
           itemPreference(),
           Container(
-            child:
-                Consumer<ProductProvider>(builder: (context, productModel, child) {
+            child: Consumer<ProductProvider>(
+                builder: (context, productModel, child) {
               if (productModel.productList.length != null &&
                   productModel.getLoadStatus() != LoadStatus.BEGIN &&
                   productModel.productList.length > 0) {
@@ -102,7 +103,8 @@ class _ProductPageState extends State<ProductPage> {
                     Center(
                       child: Text(
                         'No items available',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -146,7 +148,9 @@ class _ProductPageState extends State<ProductPage> {
           Visibility(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CommonWidgets.loading(),
+              child: Container(
+                child: CommonWidgets.loading(),
+              ),
             ),
             visible: isLoading,
           ),
@@ -174,7 +178,7 @@ class _ProductPageState extends State<ProductPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 2.0),
                   child: Image.network(
-                    'http:${productModel.images[0].src}',
+                    'https:${productModel.images[0].src}',
                     height: 100,
                     fit: BoxFit.cover,
                   ),

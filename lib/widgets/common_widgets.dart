@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vievif/utils/colors.dart';
 
 class CommonWidgets {
   static Widget loading() {
-    return Center(child: CircularProgressIndicator());
+    //return Center(child: CircularProgressIndicator());
+    return SpinKitDualRing(
+      size: 40,
+      color: kRedColor,
+    );
   }
   static Widget appbar() {
     return AppBar(
