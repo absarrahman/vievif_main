@@ -23,11 +23,11 @@ class StoreModel {
     this.vendorListBanner,
     this.storeRating,
     this.emailVerified,
-    this.vendorAdditionalInfo,
-    this.membershipDetails,
+  //  this.vendorAdditionalInfo,
+  //  this.membershipDetails,
     this.vendorDescription,
-    this.vendorPolicies,
-    this.storeTabHeadings,
+  //  this.vendorPolicies,
+  //  this.storeTabHeadings,
   });
 
   int vendorId;
@@ -53,11 +53,11 @@ class StoreModel {
   String vendorListBanner;
   String storeRating;
   String emailVerified;
-  List<VendorAdditionalInfo> vendorAdditionalInfo;
-  MembershipDetails membershipDetails;
+ // List<VendorAdditionalInfo> vendorAdditionalInfo;
+ // MembershipDetails membershipDetails;
   String vendorDescription;
-  VendorPolicies vendorPolicies;
-  StoreTabHeadings storeTabHeadings;
+  // VendorPolicies vendorPolicies;
+ // StoreTabHeadings storeTabHeadings;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
     vendorId: json["vendor_id"],
@@ -114,11 +114,11 @@ class StoreModel {
     "vendor_list_banner": vendorListBanner,
     "store_rating": storeRating,
     "email_verified": emailVerified,
-    "vendor_additional_info": List<dynamic>.from(vendorAdditionalInfo.map((x) => x.toJson())),
-    "membership_details": membershipDetails.toJson(),
+    //"vendor_additional_info": List<dynamic>.from(vendorAdditionalInfo.map((x) => x.toJson())),
+   // "membership_details": membershipDetails.toJson(),
     "vendor_description": vendorDescription,
-    "vendor_policies": vendorPolicies.toJson(),
-    "store_tab_headings": storeTabHeadings.toJson(),
+   // "vendor_policies": vendorPolicies.toJson(),
+   // "store_tab_headings": storeTabHeadings.toJson(),
   };
 }
 
