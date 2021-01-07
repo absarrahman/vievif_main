@@ -284,4 +284,8 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
+
+/*  Widget whichVendor() {
+    return
+  }*/
 }

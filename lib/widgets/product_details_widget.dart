@@ -14,6 +14,8 @@ class ProductDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint('Attributes ${product.store.vendorDisplayName}');
+  //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
+    debugPrint('Vendor Image ${product.store.vendorShopLogo}');
     return Container(
       child: Stack(
         children: [

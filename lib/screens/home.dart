@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/screens/product_page.dart';
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: imageSlider(imgList, context)),
+                imageSlider(imgList, context),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -123,15 +123,20 @@ class _HomePageState extends State<HomePage> {
 
   Widget imageSlider(List imageList, BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    return SizedBox(
-      child: CarouselSlider(
-        options: CarouselOptions(
-          autoPlay: true,
-        ),
-        items: imageList
+    return Container(
+      height: 300,
+      width: width,
+      child: Carousel(
+        boxFit: BoxFit.none,
+        autoplay: true,
+        dotSize: 2,
+        dotColor: kYellowish,
+        dotIncreasedColor: kRedColor,
+        images: imageList
             .map((item) => Image.network(
-              item,
-            ))
+                  item,
+                  fit: BoxFit.fitWidth,
+                ))
             .toList(),
       ),
     );
