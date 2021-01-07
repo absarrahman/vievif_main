@@ -61,17 +61,33 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: kYellowish,
         unselectedItemColor: kRedColor,
       ),
-      appBar: CommonWidgets.appbar(),
+      // appBar: CommonWidgets.appbar(),
       body: categories == null
           ? CommonWidgets.loading()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                imageSlider(imgList, context),
-                animatedJoinUsText(),
-                _header(),
-                _buildListCategory(),
+          : CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: kYellowish,
+                  pinned: true,
+                  expandedHeight: 100.0,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Image.asset('assets/images/logo.png',fit: BoxFit.cover,width: 150,),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    imageSlider(imgList, context),
+                    animatedJoinUsText(),
+                    _header(),
+                  ]),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 100,
+                    child: _buildListCategory(),
+                  ),
+                )
               ],
             ),
     );
@@ -88,43 +104,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildListCategory() {
-    return Expanded(
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            var category = categories[index];
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProductPage(
-                          categoryId: category.id,
-                        )),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: 80,
-                    height: 80,
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${category.name}',
-                      textAlign: TextAlign.center,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: kYellowish,
-                    ),
-                  )
-                ],
-              ),
-            );
-          }),
-    );
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          var category = categories[index];
+          return GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductPage(
+                        categoryId: category.id,
+                      )),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  width: 80,
+                  height: 80,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '${category.name}',
+                    textAlign: TextAlign.center,
+                  ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kYellowish,
+                  ),
+                )
+              ],
+            ),
+          );
+        });
   }
 
   Widget imageSlider(List imageList, BuildContext context) {
@@ -149,7 +163,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget animatedJoinUsText() {
-    return Flexible(
+    return Container(
       child: Column(
         children: [
           SizedBox(
@@ -158,12 +172,15 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
+              height: 100,
               color: kSurfaceWhite,
               child: FadeAnimatedTextKit(
                 repeatForever: true,
-                text: ["VOULEZ-VOUS VENDRE",
+                text: [
+                  "VOULEZ-VOUS VENDRE",
                   "VOTRE PRODUIT OU SERVICE?",
-                  "REJOIGNEZ-NOUS!"],
+                  "REJOIGNEZ-NOUS!"
+                ],
                 textStyle: TextStyle(
                   color: kBlueish,
                   fontSize: 40.0,
