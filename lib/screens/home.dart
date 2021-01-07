@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:vievif/models/product_category.dart';
@@ -68,16 +69,21 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 imageSlider(imgList, context),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'All categories',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                animatedJoinUsText(),
+                _header(),
                 _buildListCategory(),
               ],
             ),
+    );
+  }
+
+  Widget _header() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        'All categories',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -138,6 +144,35 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.fitWidth,
                 ))
             .toList(),
+      ),
+    );
+  }
+
+  Widget animatedJoinUsText() {
+    return Flexible(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              color: kSurfaceWhite,
+              child: FadeAnimatedTextKit(
+                repeatForever: true,
+                text: ["VOULEZ-VOUS VENDRE",
+                  "VOTRE PRODUIT OU SERVICE?",
+                  "REJOIGNEZ-NOUS!"],
+                textStyle: TextStyle(
+                  color: kBlueish,
+                  fontSize: 40.0,
+                ),
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

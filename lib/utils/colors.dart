@@ -14,3 +14,4 @@ const kBackgroundWhite = Colors.white;
 const kLightPrimary = Color(0xfffcfcff);
 const kRedColor = Color(0xffff0000);
 const kBlack = Colors.black;
+const kBlueish = Color(0xff0000ff);
