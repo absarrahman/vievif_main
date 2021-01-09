@@ -1,11 +1,16 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vievif/models/product_category.dart';
+import 'package:vievif/models/product_model.dart';
+import 'package:vievif/provider/products_provider.dart';
 import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,26 +19,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<CategoryModel> categories;
+  List<ProductModel> products;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     callCategory();
   }
 
   callCategory() async {
     categories = await ApiService().getCategories();
+    products = await ApiService().getProducts(pgNumber: 1,orderBy: 'popularity');
     setState(() {});
   }
 
   int tabIndex = 0;
-
-  List<String> imgList = [
-    'https://i.imgur.com/gLXJLjj.jpeg',
-    'https://i.imgur.com/N06PgpO.jpg',
-    'https://i.imgur.com/UjJmlBb.jpg',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: kYellowish,
         unselectedItemColor: kRedColor,
       ),
-      // appBar: CommonWidgets.appbar(),
       body: categories == null
           ? CommonWidgets.loading()
           : CustomScrollView(
@@ -77,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    imageSlider(imgList, context),
-                    animatedJoinUsText(),
+                    animatedJoinUsText(context),
+                    imageSlider(products, context),
                     _header(),
                   ]),
                 ),
@@ -141,7 +140,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget imageSlider(List imageList, BuildContext context) {
+  Widget imageSlider(List<ProductModel> imageList, BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return Container(
       height: 300,
@@ -154,7 +153,7 @@ class _HomePageState extends State<HomePage> {
         dotIncreasedColor: kRedColor,
         images: imageList
             .map((item) => Image.network(
-                  item,
+                  'https:${item.images[0].src}',
                   fit: BoxFit.fitWidth,
                 ))
             .toList(),
@@ -162,18 +161,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget animatedJoinUsText() {
+  Widget animatedJoinUsText(BuildContext context) {
     return Container(
-      child: Column(
+      child: Stack(
         children: [
-          SizedBox(
-            height: 10,
-          ),
+          wave(context),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8,40,8,0),
             child: Container(
-              height: 100,
-              color: kSurfaceWhite,
               child: FadeAnimatedTextKit(
                 repeatForever: true,
                 text: [
@@ -190,6 +185,31 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget wave(BuildContext context) {
+    return Container(
+      height: 150,
+      child: WaveWidget(
+        config: CustomConfig(
+          gradients: [
+            [kRedColor, kYellowish],
+            [kYellowish, kRedColor]
+          ],
+          durations: [25800, 20000],
+          heightPercentages: [0.07, 0.06],
+          blur: const MaskFilter.blur(BlurStyle.outer, 10),
+          gradientBegin: Alignment.bottomLeft,
+          gradientEnd: Alignment.topRight,
+        ),
+        waveAmplitude: 2,
+        backgroundColor: kYellowish,
+        size: const Size(
+          double.infinity,
+          double.infinity,
+        ),
       ),
     );
   }

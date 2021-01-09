@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
-          child: ProductPage(),
         )
       ],
       child: MaterialApp(

@@ -162,15 +162,12 @@ class _ProductPageState extends State<ProductPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 700,
-        width: 200,
         child: GestureDetector(
           onTap: () => _navigateProductPage(product),
-          child: Material(
+          child: Card(
               elevation: 7,
               color: kBackgroundWhite,
               borderOnForeground: true,
-              borderRadius: BorderRadius.circular(10),
               child: Stack(
                 children: [
                   Center(
@@ -178,7 +175,7 @@ class _ProductPageState extends State<ProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 2.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: Image.network(
                             'https:${product.images[0].src}',
                             height: 100,
@@ -195,7 +192,7 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('${product.ratingCount}'),
+                          child: vendorPanel(product),
                         ),
                         //CommonWidgets.onSale(product),
                       ],
@@ -285,7 +282,19 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-/*  Widget whichVendor() {
-    return
-  }*/
+  Widget vendorPanel(ProductModel product) {
+    return Visibility(
+      visible: product.store.vendorShopLogo!=null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(child: Image.network('https:${product.store.vendorShopLogo}',height: 20,)),
+          SizedBox(
+            width: 5,
+          ),
+          Flexible(child: Text(product.store.vendorDisplayName.toString()))
+        ],
+      ),
+    );
+  }
 }
