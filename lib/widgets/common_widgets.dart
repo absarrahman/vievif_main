@@ -32,7 +32,7 @@ class CommonWidgets {
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: kRedColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               'SALE',

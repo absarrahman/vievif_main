@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   callCategory() async {
     categories = await ApiService().getCategories();
-    products = await ApiService().getProducts(pgNumber: 1,orderBy: 'popularity');
+    products = await ApiService().getProducts(pgNumber: 1,orderBy: 'modified');
     setState(() {});
   }
 
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    animatedJoinUsText(context),
+                    //animatedJoinUsText(context),
                     imageSlider(products, context),
                     _header(),
                   ]),

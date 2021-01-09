@@ -159,6 +159,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Widget _productCard(ProductModel product) {
+    var size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -178,21 +179,21 @@ class _ProductPageState extends State<ProductPage> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Image.network(
                             'https:${product.images[0].src}',
-                            height: 100,
+                            height: size.height * 0.13,
                             fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            '${product.name}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: vendorPanel(product),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '€${product.price}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         //CommonWidgets.onSale(product),
                       ],
