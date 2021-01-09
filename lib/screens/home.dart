@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/products_provider.dart';
+import 'package:vievif/screens/auth/login.dart';
 import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
@@ -79,6 +80,7 @@ class _HomePageState extends State<HomePage> {
                     //animatedJoinUsText(context),
                     imageSlider(products, context),
                     _header(),
+                    FlatButton(onPressed: _login, child: Text("login"))
                   ]),
                 ),
                 SliverToBoxAdapter(
@@ -213,4 +215,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  _login() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+  }
+
 }
