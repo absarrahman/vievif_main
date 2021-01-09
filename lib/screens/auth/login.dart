@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/services/api_service.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -7,12 +10,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email, _password;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
+    var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: CommonWidgets.appbar(),
@@ -35,6 +39,9 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: "Email address",
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
+                onChanged: (value) {
+                  userProvider.setEmail(value);
+                },
               ),
               width: 250,
             ),
@@ -55,6 +62,9 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: "Password",
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
+                onChanged: (value){
+                  userProvider.setPassword(value);
+                },
               ),
               width: 250,
             ),
@@ -74,7 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () => {},
+                  onPressed: () {
+                    var email = userProvider.email;
+                    var password = userProvider.password;
+
+                    ApiService().login(email, password);
+
+                  },
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),

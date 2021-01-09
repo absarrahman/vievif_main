@@ -44,7 +44,6 @@ class ApiService {
     String orderBy,
     String sortingOrder = 'asc',
   }) async {
-
     List<ProductModel> data = List<ProductModel>();
 
     String path = '';
@@ -69,7 +68,7 @@ class ApiService {
       path += '&category=$categoryId';
     }
 
-    if (sortingOrder!=null) {
+    if (sortingOrder != null) {
       path += '&order=$sortingOrder';
     }
 
@@ -82,7 +81,6 @@ class ApiService {
         '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}$path';
 
     try {
-
       var response = await Dio().get(apiPath,
           options: Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
@@ -99,5 +97,23 @@ class ApiService {
       print('API SERVICE ' + e.toString());
     }
     return data;
+  }
+
+  login(String email, String password) async {
+    try {
+      var response = await Dio().post(
+        WooConfig.authTokenUrl,
+        data: {
+          'username': email,
+          'password': password,
+        },
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+        }),
+      );
+      print('RESPONSE DATA is ${response.data}');
+    } on DioError catch (e) {
+      print("Error " + e.toString());
+    }
   }
 }
