@@ -17,11 +17,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top:8.0),
-          child: ProductDetailsWidget(widget.product),
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            backgroundColor: kYellowish,
+          ),
+          SliverToBoxAdapter(
+            child: ProductDetailsWidget(widget.product),
+          )
+        ],
       ),
     );
   }
