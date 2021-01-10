@@ -78,9 +78,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kYellowish,
-      ),
+      appBar: CommonWidgets.appbar(),
       body: Column(
         children: [
           itemPreference(),

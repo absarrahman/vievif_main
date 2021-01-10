@@ -15,7 +15,7 @@ class CommonWidgets {
     return AppBar(
       automaticallyImplyLeading: true,
       backgroundColor: kYellowish,
-      title: Image.asset('assets/images/logo.png',fit: BoxFit.cover,width: 200,),
+      //title: Image.asset('assets/images/logo.png',fit: BoxFit.cover,width: 200,),
       centerTitle: true,
     );
   }

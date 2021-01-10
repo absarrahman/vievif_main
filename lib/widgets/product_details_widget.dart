@@ -45,14 +45,7 @@ class ProductDetailsWidget extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: attributeType(product),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: attributeDetails(product,productDetailsProvider),
-              ),
+              Center(child: attributeDetails(product, productDetailsProvider)),
             ],
           ),
         ],
@@ -69,22 +62,37 @@ class ProductDetailsWidget extends StatelessWidget {
     );
   }
 
-  Widget attributeDetails(ProductModel product, ProductDetailsProvider detailsProvider) {
+  Widget attributeDetails(
+      ProductModel product, ProductDetailsProvider detailsProvider) {
     /*return Text((product.attributes.length > 0) && (product.attributes != null)
         ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
         : '');*/
-    return DropdownButton(
-      value: detailsProvider.selectedColor,
-      icon: Icon(Icons.color_lens_outlined),
-      items: product.attributes[0].options.map((String value) {
-        return new DropdownMenuItem(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (color) {
-        detailsProvider.setSelectedColor(color);
-      },
+    return Column(
+      children: [
+        Text(
+          (product.attributes.length > 0) && (product.attributes != null)
+              ? '${product.attributes[0].name}'
+              : '',
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.only(left:8.0),
+          child: DropdownButton(
+            value: detailsProvider.selectedColor,
+            icon: Icon(Icons.color_lens_outlined),
+            items: product.attributes[0].options.map((String value) {
+              return new DropdownMenuItem(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (color) {
+              detailsProvider.setSelectedColor(color);
+            },
+          ),
+        ),
+      ],
     );
   }
 

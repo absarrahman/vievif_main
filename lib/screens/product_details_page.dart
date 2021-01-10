@@ -17,9 +17,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kYellowish,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top:8.0),
