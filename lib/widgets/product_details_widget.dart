@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/provider/product_details_provider.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
@@ -13,9 +15,17 @@ class ProductDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productDetailsProvider = Provider.of<ProductDetailsProvider>(context);
     debugPrint('Attributes ${product.store.vendorDisplayName}');
-  //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
+    //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
     debugPrint('Vendor Image ${product.store.vendorShopLogo}');
+    if (productDetailsProvider.selectedColor == null) {
+      productDetailsProvider.setSelectedColor(
+          product.attributes != null && product.attributes.length > 0
+              ? '${product.attributes[0].options[0]}'
+              : '');
+    }
+
     return Container(
       child: Stack(
         children: [
@@ -32,7 +42,17 @@ class ProductDetailsWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: itemName(product),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: attributeType(product),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: attributeDetails(product,productDetailsProvider),
+              ),
             ],
           ),
         ],
@@ -40,10 +60,39 @@ class ProductDetailsWidget extends StatelessWidget {
     );
   }
 
+  Widget attributeType(ProductModel product) {
+    return Text(
+      (product.attributes.length > 0) && (product.attributes != null)
+          ? '${product.attributes[0].name}'
+          : '',
+      style: TextStyle(fontSize: 20),
+    );
+  }
+
+  Widget attributeDetails(ProductModel product, ProductDetailsProvider detailsProvider) {
+    /*return Text((product.attributes.length > 0) && (product.attributes != null)
+        ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
+        : '');*/
+    return DropdownButton(
+      value: detailsProvider.selectedColor,
+      icon: Icon(Icons.color_lens_outlined),
+      items: product.attributes[0].options.map((String value) {
+        return new DropdownMenuItem(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (color) {
+        detailsProvider.setSelectedColor(color);
+      },
+    );
+  }
+
   Widget itemName(ProductModel product) {
     return Center(
       child: Text(
         product.name,
+        textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
       ),
     );
