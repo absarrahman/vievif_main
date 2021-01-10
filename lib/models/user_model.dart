@@ -16,6 +16,7 @@ class UserModel {
     this.avatarUrl,
     this.metaData,
     this.links,
+    this.token,
   });
 
   int id;
@@ -34,6 +35,7 @@ class UserModel {
   String avatarUrl;
   List<MetaDatum> metaData;
   Links links;
+  String token;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],

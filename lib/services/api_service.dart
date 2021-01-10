@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/models/user_model.dart';
 import 'package:vievif/services/config.dart';
 
 class ApiService {
@@ -112,18 +114,25 @@ class ApiService {
         }),
       );
       print('RESPONSE DATA is ${response.data['data']}');
+      var token = response.data['data']['token'];
       String id = (response.data['data']['id']).toString();
-      print('ID is $id');
+      print('ID is $token');
       // https://example.com/wp-json/wp/v2/users/<id>
       print('ID PATH ${WooConfig.userDetailsUrl +
-          '12?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
-      var responseTwo = await Dio().get(
+          '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
+      response = await Dio().get(
           WooConfig.userDetailsUrl +
-              '12?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
+              '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
           options: Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
 
-      print('RESPONSE2 data is ${responseTwo.data}');
+      print('RESPONSE2 data is ${response.data}');
+      UserModel user = UserModel.fromJson(response.data);
+      user.token = token;
+      print('Email is ${user.email}');
+      print('Token ${user.token}');
+      print('Role ${user.role}');
+
     } on DioError catch (e) {
       print("Error " + e.toString());
     }
