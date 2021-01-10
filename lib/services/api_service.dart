@@ -111,7 +111,19 @@ class ApiService {
           HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
         }),
       );
-      print('RESPONSE DATA is ${response.data}');
+      print('RESPONSE DATA is ${response.data['data']}');
+      String id = (response.data['data']['id']).toString();
+      print('ID is $id');
+      // https://example.com/wp-json/wp/v2/users/<id>
+      print('ID PATH ${WooConfig.userDetailsUrl +
+          '12?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
+      var responseTwo = await Dio().get(
+          WooConfig.userDetailsUrl +
+              '12?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+
+      print('RESPONSE2 data is ${responseTwo.data}');
     } on DioError catch (e) {
       print("Error " + e.toString());
     }

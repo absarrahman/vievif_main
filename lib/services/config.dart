@@ -6,4 +6,5 @@ class WooConfig {
   static String categoriesUrl = 'products/categories/';
   static String productsUrl = 'products/';
   static String authTokenUrl = 'https://www.vievif.fr/wp-json/jwt-auth/v1/token';
+  static String userDetailsUrl = 'https://www.vievif.fr/wp-json/wc/v3/customers/';
 }
