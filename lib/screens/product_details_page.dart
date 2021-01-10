@@ -20,9 +20,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
-            ),
             backgroundColor: kYellowish,
           ),
           SliverToBoxAdapter(
