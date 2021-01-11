@@ -3,6 +3,14 @@ import 'package:vievif/utils/colors.dart';
 
 // ignore: must_be_immutable
 class StepperCounter extends StatefulWidget {
+
+  final int lowerBound;
+  final int upperBound;
+  final int stepIncrementValue;
+  int value;
+  final double stepperIconSize, borderRadius;
+  final ValueChanged<dynamic> onChanged;
+
   StepperCounter({
     @required this.lowerBound,
     @required this.upperBound,
@@ -12,13 +20,6 @@ class StepperCounter extends StatefulWidget {
     this.borderRadius,
     @required this.onChanged,
   });
-
-  final int lowerBound;
-  final int upperBound;
-  final int stepIncrementValue;
-  int value;
-  final double stepperIconSize, borderRadius;
-  final ValueChanged<dynamic> onChanged;
 
   @override
   _StepperCounterState createState() => _StepperCounterState();

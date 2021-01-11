@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/product_description_widget.dart';
 import 'package:vievif/widgets/stepper_counter.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
@@ -23,7 +26,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   Widget build(BuildContext context) {
     debugPrint('Attributes ${widget.product.store.vendorDisplayName}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
-    debugPrint('Vendor Image ${widget.product.store.vendorShopLogo}');
+    debugPrint('Vendor Image ${widget.product.priceHtml}');
     //int x = 1;
     isAttribute1 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&
@@ -47,6 +50,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: itemName(widget.product),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(child: HtmlWidget(widget.product.priceHtml,webView: true,textStyle: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
               SizedBox(
                 height: 20,
               ),
@@ -80,6 +87,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               SizedBox(
                 height: 20,
               ),
+              DescriptionWidget(description: widget.product.description,),
             ],
           ),
         ],
