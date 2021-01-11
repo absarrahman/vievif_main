@@ -1,10 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
-import 'package:vievif/provider/product_details_provider.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/stepper_counter.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   final ProductModel product;
@@ -19,6 +17,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   final CarouselController _carouselController = CarouselController();
 
   String selected;
+  int amount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +45,15 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 height: 20,
               ),
               Center(child: attributeDetails(widget.product)),
+              StepperCounter(
+                  lowerBound: 0,
+                  upperBound: 10,
+                  stepIncrementValue: 1,
+                  value: this.amount,
+                  stepperIconSize: 22,
+                  onChanged: (value) {
+                    print(value);
+                  }),
             ],
           ),
         ],
@@ -62,8 +70,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  Widget attributeDetails(
-      ProductModel product) {
+  Widget attributeDetails(ProductModel product) {
     /*return Text((product.attributes.length > 0) && (product.attributes != null)
         ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
         : '');*/
@@ -75,9 +82,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               : '',
           style: TextStyle(fontSize: 20),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Padding(
-          padding: const EdgeInsets.only(left:8.0),
+          padding: const EdgeInsets.only(left: 8.0),
           child: DropdownButton(
             hint: Text('Choisir une option'),
             value: selected,

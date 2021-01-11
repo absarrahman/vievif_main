@@ -1,10 +1,10 @@
 class UserModel {
   UserModel({
     this.id,
-    this.dateCreated,
+    /*this.dateCreated,
     this.dateCreatedGmt,
     this.dateModified,
-    this.dateModifiedGmt,
+    this.dateModifiedGmt,*/
     this.email,
     this.firstName,
     this.lastName,
@@ -20,10 +20,10 @@ class UserModel {
   });
 
   int id;
-  DateTime dateCreated;
+  /*DateTime dateCreated;
   DateTime dateCreatedGmt;
   DateTime dateModified;
-  DateTime dateModifiedGmt;
+  DateTime dateModifiedGmt;*/
   String email;
   String firstName;
   String lastName;
@@ -39,10 +39,10 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],
-    dateCreated: DateTime.parse(json["date_created"]),
+    /*dateCreated: DateTime.parse(json["date_created"]),
     dateCreatedGmt: DateTime.parse(json["date_created_gmt"]),
     dateModified: DateTime.parse(json["date_modified"]),
-    dateModifiedGmt: DateTime.parse(json["date_modified_gmt"]),
+    dateModifiedGmt: DateTime.parse(json["date_modified_gmt"]),*/
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
@@ -58,10 +58,10 @@ class UserModel {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "date_created": dateCreated.toIso8601String(),
+    /*"date_created": dateCreated.toIso8601String(),
     "date_created_gmt": dateCreatedGmt.toIso8601String(),
     "date_modified": dateModified.toIso8601String(),
-    "date_modified_gmt": dateModifiedGmt.toIso8601String(),
+    "date_modified_gmt": dateModifiedGmt.toIso8601String(),*/
     "email": email,
     "first_name": firstName,
     "last_name": lastName,

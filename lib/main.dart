@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vievif/provider/product_details_provider.dart';
 import 'package:vievif/provider/products_provider.dart';
 import 'package:vievif/provider/user_provider.dart';
 
@@ -21,9 +20,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => UserProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ProductDetailsProvider(),
         ),
       ],
       child: MaterialApp(
