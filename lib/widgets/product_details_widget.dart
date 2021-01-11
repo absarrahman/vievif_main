@@ -15,16 +15,22 @@ class ProductDetailsWidget extends StatefulWidget {
 
 class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   final CarouselController _carouselController = CarouselController();
-
-  String selected;
   int amount = 0;
+  List<String> selectedList = List(2);
+  bool isAttribute1, isAttribute2;
 
   @override
   Widget build(BuildContext context) {
     debugPrint('Attributes ${widget.product.store.vendorDisplayName}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
     debugPrint('Vendor Image ${widget.product.store.vendorShopLogo}');
-
+    //int x = 1;
+    isAttribute1 = (widget.product.attributes.length > 0) &&
+        (widget.product.attributes != null) &&
+        (widget.product.attributes[0].options.length > 1);
+    isAttribute2 = (widget.product.attributes.length > 0) &&
+        (widget.product.attributes != null) &&
+        (widget.product.attributes[1].options.length > 1);
     return Container(
       child: Stack(
         children: [
@@ -44,7 +50,21 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               SizedBox(
                 height: 20,
               ),
-              Center(child: attributeDetails(widget.product)),
+              Visibility(
+                visible: isAttribute1,
+                child: Center(
+                  child: attributeDetails(widget.product.attributes[0], 0),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Visibility(
+                visible: isAttribute2,
+                child: Center(
+                  child: attributeDetails(widget.product.attributes[1], 1),
+                ),
+              ),
               StepperCounter(
                   lowerBound: 0,
                   upperBound: 10,
@@ -54,6 +74,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   onChanged: (value) {
                     print(value);
                   }),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ],
@@ -61,25 +84,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  Widget attributeType(ProductModel product) {
-    return Text(
-      (product.attributes.length > 0) && (product.attributes != null)
-          ? '${product.attributes[0].name}'
-          : '',
-      style: TextStyle(fontSize: 20),
-    );
-  }
-
-  Widget attributeDetails(ProductModel product) {
+  Widget attributeDetails(AttributeModel attribute, int index) {
     /*return Text((product.attributes.length > 0) && (product.attributes != null)
         ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
         : '');*/
     return Column(
       children: [
         Text(
-          (product.attributes.length > 0) && (product.attributes != null)
-              ? '${product.attributes[0].name}'
-              : '',
+          attribute.name,
           style: TextStyle(fontSize: 20),
         ),
         SizedBox(
@@ -89,17 +101,17 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           padding: const EdgeInsets.only(left: 8.0),
           child: DropdownButton(
             hint: Text('Choisir une option'),
-            value: selected,
+            value: selectedList[index],
             icon: Icon(Icons.color_lens_outlined),
-            items: product.attributes[0].options.map((String value) {
+            items: attribute.options.map((String value) {
               return new DropdownMenuItem(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
-            onChanged: (color) {
+            onChanged: (value) {
               setState(() {
-                selected = color;
+                selectedList[index] = value;
               });
             },
           ),

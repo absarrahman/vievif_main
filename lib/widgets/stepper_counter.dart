@@ -10,6 +10,7 @@ class StepperCounter extends StatefulWidget {
     @required this.stepperIconSize,
     @required this.onChanged,
   });
+
   final int lowerBound;
   final int upperBound;
   final int stepIncrementValue;
@@ -27,27 +28,41 @@ class _StepperCounterState extends State<StepperCounter> {
     return Container(
       child: Row(
         children: [
-          IconButton(
-            icon: Icon(Icons.remove_outlined),
-            onPressed: () {
-              setState(() {
-                widget.value=widget.value==widget.lowerBound?widget.lowerBound:widget.value -= widget.stepIncrementValue;
-                widget.onChanged(widget.value);
-              });
-            },
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.remove_outlined),
+              onPressed: () {
+                setState(() {
+                  widget.value = widget.value == widget.lowerBound
+                      ? widget.lowerBound
+                      : widget.value -= widget.stepIncrementValue;
+                  widget.onChanged(widget.value);
+                });
+              },
+            ),
           ),
           Container(
-            child: Text(widget.value.toString()),
+            child: Text(
+              widget.value.toString(),
+              style: TextStyle(
+                fontSize: widget.stepperIconSize * 0.7
+              ),
+              textAlign: TextAlign.center,
+            ),
             width: widget.stepperIconSize,
           ),
-          IconButton(
-            icon: Icon(Icons.add_outlined),
-            onPressed: () {
-              setState(() {
-                widget.value=widget.value==widget.upperBound?widget.upperBound:widget.value += widget.stepIncrementValue;
-                widget.onChanged(widget.value);
-              });
-            },
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.add_outlined),
+              onPressed: () {
+                setState(() {
+                  widget.value = widget.value == widget.upperBound
+                      ? widget.upperBound
+                      : widget.value += widget.stepIncrementValue;
+                  widget.onChanged(widget.value);
+                });
+              },
+            ),
           ),
         ],
       ),
