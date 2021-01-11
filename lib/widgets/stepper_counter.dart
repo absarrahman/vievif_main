@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vievif/utils/colors.dart';
 
 // ignore: must_be_immutable
 class StepperCounter extends StatefulWidget {
@@ -8,6 +9,7 @@ class StepperCounter extends StatefulWidget {
     @required this.stepIncrementValue,
     @required this.value,
     @required this.stepperIconSize,
+    this.borderRadius,
     @required this.onChanged,
   });
 
@@ -15,7 +17,7 @@ class StepperCounter extends StatefulWidget {
   final int upperBound;
   final int stepIncrementValue;
   int value;
-  final double stepperIconSize;
+  final double stepperIconSize, borderRadius;
   final ValueChanged<dynamic> onChanged;
 
   @override
@@ -26,6 +28,11 @@ class _StepperCounterState extends State<StepperCounter> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: widget.stepperIconSize * 5,
+      decoration: BoxDecoration(
+          color: kYellowish,
+          borderRadius: BorderRadius.circular(
+              widget.borderRadius == null ? 20 : widget.borderRadius)),
       child: Row(
         children: [
           Container(
@@ -44,12 +51,9 @@ class _StepperCounterState extends State<StepperCounter> {
           Container(
             child: Text(
               widget.value.toString(),
-              style: TextStyle(
-                fontSize: widget.stepperIconSize * 0.7
-              ),
+              style: TextStyle(fontSize: widget.stepperIconSize * 0.7),
               textAlign: TextAlign.center,
             ),
-            width: widget.stepperIconSize,
           ),
           Container(
             child: IconButton(

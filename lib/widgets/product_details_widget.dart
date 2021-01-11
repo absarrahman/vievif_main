@@ -65,15 +65,18 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   child: attributeDetails(widget.product.attributes[1], 1),
                 ),
               ),
-              StepperCounter(
-                  lowerBound: 0,
-                  upperBound: 10,
-                  stepIncrementValue: 1,
-                  value: this.amount,
-                  stepperIconSize: 22,
-                  onChanged: (value) {
-                    print(value);
-                  }),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StepperCounter(
+                    lowerBound: 0,
+                    upperBound: 10,
+                    stepIncrementValue: 1,
+                    value: this.amount,
+                    stepperIconSize: 22,
+                    onChanged: (value) {
+                      print(value);
+                    }),
+              ),
               SizedBox(
                 height: 20,
               ),
