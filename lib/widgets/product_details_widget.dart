@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/product_description_widget.dart';
@@ -107,11 +108,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     child: FlatButton(
                       height: 50,
                       color: kYellowish,
-                      onPressed: () {
-                      },
-                      child: Text('Ajouter au panier',style: TextStyle(
-                        color: kSurfaceWhite
-                      ),),
+                      onPressed: () {},
+                      child: Text(
+                        'Ajouter au panier',
+                        style: TextStyle(color: kSurfaceWhite),
+                      ),
                       shape: StadiumBorder(),
                     ),
                   )
@@ -123,6 +124,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               DescriptionWidget(
                 description: widget.product.description,
               ),
+              SizedBox(
+                height: 20,
+              ),
+              CommonWidgets.header('Produits similaires'),
+              relatedProducts(),
             ],
           ),
         ],
@@ -163,6 +169,25 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget relatedProducts() {
+    return Container(
+      child: FutureBuilder(
+          future: ApiService().getProducts(
+              pgNumber: 1, relatedProductIds: widget.product.relatedIds),
+          builder: (context, AsyncSnapshot<List<ProductModel>> snapshot) {
+            if (snapshot.hasData) {
+              return CommonWidgets.rowProducts(snapshot.data);
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return CommonWidgets.loading();
+            } else {
+              return Container(
+                child: Text('Aucun produit similaire n\'est disponible'),
+              );
+            }
+          }),
     );
   }
 

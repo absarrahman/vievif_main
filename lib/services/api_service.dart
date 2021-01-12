@@ -44,6 +44,7 @@ class ApiService {
     String categoryId,
     String tagName,
     String orderBy,
+    List<dynamic> relatedProductIds,
     String sortingOrder = 'asc',
   }) async {
     List<ProductModel> data = List<ProductModel>();
@@ -76,6 +77,10 @@ class ApiService {
 
     if (orderBy != null) {
       path += '&orderby=$orderBy';
+    }
+
+    if (relatedProductIds != null) {
+      path += '&include=${relatedProductIds.join(',').toString()}';
     }
 
     String apiPath = WooConfig.baseUrl +

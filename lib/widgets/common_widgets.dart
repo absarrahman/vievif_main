@@ -50,15 +50,18 @@ class CommonWidgets {
   }
 
   static Widget rowProducts(List<ProductModel> products) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          var product = products[index];
-          return ProductCardWidget(product: product);
-        });
+    return Container(
+      height: 184,
+      child: ListView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            var product = products[index];
+            return ProductCardWidget(product: product);
+          }),
+    );
   }
 
   static Widget header(String text) {

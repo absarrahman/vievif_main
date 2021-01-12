@@ -88,21 +88,15 @@ class _HomePageState extends State<HomePage> {
                   ]),
                 ),
                 SliverToBoxAdapter(
-                  child: Container(
-                    height: 184,
-                    child: CommonWidgets.rowProducts(products),
-                  ),
+                  child: CommonWidgets.rowProducts(products),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
                     SizedBox(
                       height: 10,
                     ),
-                    CommonWidgets.header('All categories'),
-                    Container(
-                      height: 184,
-                      child: _buildListCategory(),
-                    ),
+                    CommonWidgets.header('Catégories'),
+                    _buildListCategory(),
                   ]),
                 )
               ],
@@ -133,41 +127,44 @@ class _HomePageState extends State<HomePage> {
   }*/
 
   Widget _buildListCategory() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          var category = categories[index];
-          return GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProductPage(
-                        categoryId: category.id,
-                      )),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  width: 80,
-                  height: 80,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${category.name}',
-                    textAlign: TextAlign.center,
-                  ),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: kYellowish,
-                  ),
-                )
-              ],
-            ),
-          );
-        });
+    return Container(
+      height: 100,
+      child: ListView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            var category = categories[index];
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductPage(
+                          categoryId: category.id,
+                        )),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: 80,
+                    height: 80,
+                    alignment: Alignment.center,
+                    child: Text(
+                      '${category.name}',
+                      textAlign: TextAlign.center,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: kYellowish,
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
   }
 
   Widget imageSlider(List<ProductModel> imageList, BuildContext context) {
