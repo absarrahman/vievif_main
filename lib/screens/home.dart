@@ -84,13 +84,13 @@ class _HomePageState extends State<HomePage> {
                     imageSlider(products, context),
                     //_header(),
                     FlatButton(onPressed: _login, child: Text("login")),
-                    _header('Latest Products'),
+                    CommonWidgets.header('FAITS SAILLANTS'),
                   ]),
                 ),
                 SliverToBoxAdapter(
                   child: Container(
                     height: 184,
-                    child: _latestProducts(products),
+                    child: CommonWidgets.rowProducts(products),
                   ),
                 ),
                 SliverList(
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 10,
                     ),
-                    _header('All categories'),
+                    CommonWidgets.header('All categories'),
                     Container(
                       height: 184,
                       child: _buildListCategory(),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _latestProducts(List<ProductModel> products) {
+  /*Widget _latestProducts(List<ProductModel> products) {
     return ListView.builder(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
@@ -120,9 +120,9 @@ class _HomePageState extends State<HomePage> {
           var product = products[index];
           return ProductCardWidget(product: product);
         });
-  }
+  }*/
 
-  Widget _header(String text) {
+  /*Widget _header(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
-  }
+  }*/
 
   Widget _buildListCategory() {
     return ListView.builder(
