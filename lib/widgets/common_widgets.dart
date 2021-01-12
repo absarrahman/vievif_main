@@ -35,10 +35,10 @@ class CommonWidgets {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
-              'SALE',
+              'Promo!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 15,
                 color: kBackgroundWhite,
               ),
             ),

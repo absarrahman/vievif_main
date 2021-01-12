@@ -1,15 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
-import 'package:vievif/provider/products_provider.dart';
 import 'package:vievif/screens/auth/login.dart';
 import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/product_card_widget.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -30,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   callCategory() async {
     categories = await ApiService().getCategories();
-    products = await ApiService().getProducts(pgNumber: 1,orderBy: 'modified');
+    products = await ApiService().getProducts(pgNumber: 1, orderBy: 'modified');
     setState(() {});
   }
 
@@ -72,33 +71,62 @@ class _HomePageState extends State<HomePage> {
                   expandedHeight: 100.0,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    title: Image.asset('assets/images/logo.png',fit: BoxFit.cover,width: 150,),
+                    title: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.cover,
+                      width: 150,
+                    ),
                   ),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
                     //animatedJoinUsText(context),
                     imageSlider(products, context),
-                    _header(),
-                    FlatButton(onPressed: _login, child: Text("login"))
+                    //_header(),
+                    FlatButton(onPressed: _login, child: Text("login")),
+                    _header('Latest Products'),
                   ]),
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    height: 100,
-                    child: _buildListCategory(),
+                    height: 184,
+                    child: _latestProducts(products),
                   ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _header('All categories'),
+                    Container(
+                      height: 184,
+                      child: _buildListCategory(),
+                    ),
+                  ]),
                 )
               ],
             ),
     );
   }
 
-  Widget _header() {
+  Widget _latestProducts(List<ProductModel> products) {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          var product = products[index];
+          return ProductCardWidget(product: product);
+        });
+  }
+
+  Widget _header(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        'All categories',
+        text,
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
@@ -169,7 +197,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           wave(context),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,40,8,0),
+            padding: const EdgeInsets.fromLTRB(8, 40, 8, 0),
             child: Container(
               child: FadeAnimatedTextKit(
                 repeatForever: true,
@@ -217,7 +245,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _login() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
-
 }

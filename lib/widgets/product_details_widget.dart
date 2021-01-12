@@ -107,7 +107,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     child: FlatButton(
                       height: 50,
                       color: kYellowish,
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       child: Text('Ajouter au panier',style: TextStyle(
                         color: kSurfaceWhite
                       ),),
