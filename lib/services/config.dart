@@ -7,4 +7,9 @@ class WooConfig {
   static String productsUrl = 'products/';
   static String authTokenUrl = 'https://www.vievif.fr/wp-json/jwt-auth/v1/token';
   static String userDetailsUrl = 'https://www.vievif.fr/wp-json/wc/v3/customers/';
+  static String userCartUrl = 'cart';
+  static String saleStateUrl = 'https://vievif.fr/wp-json/wcfmmp/v1/sales-stats/';
+  static String deliveryUrl = 'https://vievif.fr/wp-json/wcfmmp/v1/deliveries';
+  static String vendorProductUrl = 'https://vievif.fr/wp-json/wcfmmp/v1/products';
+  static String storeVendorList = 'https://vievif.fr/wp-json/wcfmmp/v1/store-vendors';
 }

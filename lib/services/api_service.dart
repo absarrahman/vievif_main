@@ -138,6 +138,13 @@ class ApiService {
       print('Token ${user.token}');
       print('Role ${user.role}');
 
+      response = await Dio().get('${WooConfig.storeVendorList}',
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json','Authorization':'Bearer $token'}));
+
+      print('CART RESPONSE data is ${response.data}');
+      print('CART RESPONSE data is ${response.statusCode}');
+
     } on DioError catch (e) {
       print("Error " + e.toString());
     }
