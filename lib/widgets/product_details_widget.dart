@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/style.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/product_description_widget.dart';
+import 'package:vievif/widgets/product_rating_widget.dart';
 import 'package:vievif/widgets/stepper_counter.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
@@ -26,7 +27,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   Widget build(BuildContext context) {
     debugPrint('Attributes ${widget.product.store.vendorDisplayName}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
-    debugPrint('Vendor Image ${widget.product.priceHtml}');
+    debugPrint('Vendor Image ${widget.product.description}');
     //int x = 1;
     isAttribute1 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&
@@ -53,7 +54,21 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               SizedBox(
                 height: 20,
               ),
-              Center(child: HtmlWidget(widget.product.priceHtml,webView: true,textStyle: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RatingWidget(rating: widget.product.averageRating),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: HtmlWidget(
+                      widget.product.priceHtml,
+                      webView: true,
+                      textStyle:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -72,22 +87,41 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   child: attributeDetails(widget.product.attributes[1], 1),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: StepperCounter(
-                    lowerBound: 0,
-                    upperBound: 10,
-                    stepIncrementValue: 1,
-                    value: this.amount,
-                    stepperIconSize: 22,
-                    onChanged: (value) {
-                      print(value);
-                    }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StepperCounter(
+                        lowerBound: 0,
+                        upperBound: 10,
+                        stepIncrementValue: 1,
+                        value: this.amount,
+                        stepperIconSize: 22,
+                        onChanged: (value) {
+                          print(value);
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FlatButton(
+                      height: 50,
+                      color: kYellowish,
+                      onPressed: () {},
+                      child: Text('Ajouter au panier',style: TextStyle(
+                        color: kSurfaceWhite
+                      ),),
+                      shape: StadiumBorder(),
+                    ),
+                  )
+                ],
               ),
               SizedBox(
                 height: 20,
               ),
-              DescriptionWidget(description: widget.product.description,),
+              DescriptionWidget(
+                description: widget.product.description,
+              ),
             ],
           ),
         ],

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/products_provider.dart';
-import 'package:vievif/screens/product_details_page.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/product_card_widget.dart';
 
 class ProductPage extends StatefulWidget {
   final categoryId;
@@ -62,17 +62,6 @@ class _ProductPageState extends State<ProductPage> {
           categoryID: widget.categoryId.toString(),
           searchProduct: _searchItemController.text);
     });
-  }
-
-  _navigateProductPage(ProductModel product) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProductDetailsPage(
-          product: product,
-        ),
-      ),
-    );
   }
 
   @override
@@ -135,7 +124,10 @@ class _ProductPageState extends State<ProductPage> {
               scrollDirection: Axis.vertical,
               physics: ClampingScrollPhysics(),
               children: itemList
-                  .map((ProductModel product) => _productCard(product))
+                  .map(
+                    (ProductModel product) =>
+                        ProductCardWidget(product: product),
+                  )
                   .toList(),
             ),
           ),
@@ -152,62 +144,6 @@ class _ProductPageState extends State<ProductPage> {
             visible: isLoading,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _productCard(ProductModel product) {
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: GestureDetector(
-          onTap: () => _navigateProductPage(product),
-          child: Card(
-              elevation: 7,
-              color: kBackgroundWhite,
-              borderOnForeground: true,
-              child: Stack(
-                children: [
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Image.network(
-                            'https:${product.images[0].src}',
-                            height: size.height * 0.13,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: vendorPanel(product),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            '€${product.price}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        //CommonWidgets.onSale(product),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 5,
-                    child: Container(
-                      height: 80,
-                      width: 90,
-                      child: CommonWidgets.onSale(product),
-                    ),
-                  ),
-                ],
-              )),
-        ),
       ),
     );
   }
@@ -277,22 +213,6 @@ class _ProductPageState extends State<ProductPage> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget vendorPanel(ProductModel product) {
-    return Visibility(
-      visible: product.store.vendorShopLogo!=null,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(child: Image.network('https:${product.store.vendorShopLogo}',height: 20,)),
-          SizedBox(
-            width: 5,
-          ),
-          Flexible(child: Text(product.store.vendorDisplayName.toString()))
-        ],
       ),
     );
   }

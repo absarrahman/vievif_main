@@ -16,17 +16,28 @@ class _DescriptionWidgetState extends State<DescriptionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HtmlWidget(
-              widget.description,
-              webView: true,
-            ),
-          ],
+      child: Center(
+        child: Container(
+          width: width - (width * 0.1),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /*Html(
+                data: widget.description,
+                style: {
+                  "div":Style(
+                    fontSize: FontSize.large,
+                  ),
+                },
+              ),*/
+              HtmlWidget(widget.description,
+                webView: true,
+              ),
+            ],
+          ),
         ),
       ),
     );
