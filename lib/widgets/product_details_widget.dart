@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
@@ -23,12 +26,16 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   int amount = 0;
   List<String> selectedList = List(2);
   bool isAttribute1, isAttribute2;
+  bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Attributes ${widget.product.store.vendorDisplayName}');
+    var wishlistProvider =
+    Provider.of<WishListProvider>(context,listen: false);
+    isFavorite = wishlistProvider.productList.contains(widget.product)?true:false;
+    debugPrint('Attributes ${isFavorite}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
-    debugPrint('Vendor Image ${widget.product.description}');
+    debugPrint('Vendor Image ${widget.product.purchasable}');
     //int x = 1;
     isAttribute1 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&
@@ -51,6 +58,24 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: itemName(widget.product),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FavoriteButton(
+                  isFavorite: isFavorite,
+                  valueChanged: (_isFavorite) {
+                    /*isFavorite = _isFavorite;
+                    isFavorite == false
+                        ? wishlistProvider.removeProduct(widget.product)
+                        : wishlistProvider.addProduct(widget.product);*/
+                    setState(() {
+                      isFavorite = _isFavorite;
+                    });
+                    isFavorite == false
+                        ? wishlistProvider.removeProduct(widget.product)
+                        : wishlistProvider.addProduct(widget.product);
+                  },
+                ),
               ),
               SizedBox(
                 height: 20,

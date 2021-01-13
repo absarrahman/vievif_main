@@ -39,6 +39,7 @@ dependencies:
   wave: ^0.1.0
   flutter_html: ^1.1.1
   flutter_widget_from_html: ^0.5.1+5
+  favorite_button: ^0.0.3
   smooth_star_rating: ^1.1.1
   shared_preferences: ^0.5.12+4
 
