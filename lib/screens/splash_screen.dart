@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:vievif/screens/home.dart';
+import 'package:vievif/screens/navigation_page.dart';
 import 'package:vievif/utils/colors.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class SplashScreen extends StatelessWidget {
         duration: 3000,
         splash: 'assets/images/logo.png',
         screenFunction: () async {
-          return HomePage();
+          return NavigationPage();
         },
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.scale,

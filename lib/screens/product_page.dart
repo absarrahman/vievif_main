@@ -38,14 +38,14 @@ class _ProductPageState extends State<ProductPage> {
     productProvider.resetStreams();
     productProvider.setLoadingStatus(LoadStatus.BEGIN);
     productProvider.getProducts(_pgNumber,
-        categoryID: widget.categoryId.toString());
+        categoryID: widget.categoryId!=null?widget.categoryId.toString():null);
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         productProvider.setLoadingStatus(LoadStatus.LOADING);
         productProvider.getProducts(++_pgNumber,
-            categoryID: widget.categoryId.toString());
+            categoryID: widget.categoryId!=null?widget.categoryId.toString():null);
       }
     });
 

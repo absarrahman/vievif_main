@@ -13,3 +13,10 @@ class WooConfig {
   static String vendorProductUrl = 'https://vievif.fr/wp-json/wcfmmp/v1/products';
   static String storeVendorList = 'https://vievif.fr/wp-json/wcfmmp/v1/store-vendors';
 }
+
+class UserType {
+  static const String admin = 'administrator';
+  static const String customer = 'customer';
+  static const String vendor = 'wcfm_vendor';
+  static const String deliveryMan = 'wcfm_delivery_boy';
+}

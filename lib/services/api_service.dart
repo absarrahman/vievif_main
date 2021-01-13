@@ -106,7 +106,7 @@ class ApiService {
     return data;
   }
 
-  login(String email, String password) async {
+  Future<UserModel> login(String email, String password) async {
     try {
       var response = await Dio().post(
         WooConfig.authTokenUrl,
@@ -137,14 +137,7 @@ class ApiService {
       print('Email is ${user.email}');
       print('Token ${user.token}');
       print('Role ${user.role}');
-
-      response = await Dio().get('${WooConfig.storeVendorList}',
-          options: Options(
-              headers: {HttpHeaders.contentTypeHeader: 'application/json','Authorization':'Bearer $token'}));
-
-      print('CART RESPONSE data is ${response.data}');
-      print('CART RESPONSE data is ${response.statusCode}');
-
+      return user;
     } on DioError catch (e) {
       print("Error " + e.toString());
     }

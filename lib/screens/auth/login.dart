@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/role/admin_screen.dart';
+import 'package:vievif/screens/role/customer_screen.dart';
+import 'package:vievif/screens/role/delivery_screen.dart';
+import 'package:vievif/screens/role/vendor_screen.dart';
 import 'package:vievif/services/api_service.dart';
+import 'package:vievif/services/config.dart';
+import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,7 +17,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -24,26 +30,11 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              child: TextField(
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.email),
-                  border: InputBorder.none,
-                  hintText: "Email address",
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-                onChanged: (value) {
-                  userProvider.setEmail(value);
-                },
-              ),
-              width: 250,
+              child: Image.asset('assets/images/logo.png',height: screenWidth * 0.77,
+                width: screenWidth * 0.77,),
+            ),
+            SizedBox(
+              height: 40,
             ),
             Container(
               decoration: BoxDecoration(
@@ -53,23 +44,58 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              child: TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.vpn_key),
-                  border: InputBorder.none,
-                  hintText: "Password",
-                  hintStyle: TextStyle(color: Colors.grey),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  primaryColor: kRedColor,
                 ),
-                onChanged: (value){
-                  userProvider.setPassword(value);
-                },
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.email),
+                    //border: InputBorder.none,
+                    hintText: "Identifiant ou adresse de messagerie",
+                    hintStyle: TextStyle(color: Colors.grey,fontStyle: FontStyle.italic),
+                  ),
+                  onChanged: (value) {
+                    userProvider.setEmail(value);
+                  },
+                ),
               ),
-              width: 250,
+              width: 350,
             ),
             SizedBox(
-              height: screenHeight*0.08,
+              height: 20,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  primaryColor: kRedColor,
+                ),
+                child: TextField(
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.vpn_key,),
+                    //border: InputBorder.none,
+                    hintText: "Mot de passe",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                  onChanged: (value) {
+                    userProvider.setPassword(value);
+                  },
+                ),
+              ),
+              width: 350,
+            ),
+            SizedBox(
+              height: screenHeight * 0.08,
             ),
             Container(
               alignment: Alignment.center,
@@ -78,18 +104,26 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50.0,
                 child: RaisedButton(
                   child: Text(
-                    "Log in",
+                    "Identification",
                     style: TextStyle(
                       fontSize: 20.0,
+                      color: kSurfaceWhite
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     var email = userProvider.email;
                     var password = userProvider.password;
 
-                    ApiService().login(email, password);
-
+                    try {
+                      UserModel user =
+                          await ApiService().login(email, password);
+                      print('USER TOKEN LOGIN ${user.token}');
+                      navigateUserScreen(user);
+                    } catch (e) {
+                      print('ERROR');
+                      _exitDialogue();
+                    }
                   },
                 ),
                 shape: RoundedRectangleBorder(
@@ -103,4 +137,56 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  _exitDialogue() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: kYellowish,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        title: Image.asset(
+          'assets/images/logo.png',
+          fit: BoxFit.cover,
+          width: 10,
+        ),
+        content: Text(
+          "Identifiant ou mot de passe incorrect",
+          style: TextStyle(fontSize: 20, color: kBlack),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              "D'accord",
+              style: TextStyle(color: kBlack),
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  navigateUserScreen(UserModel user) {
+    switch(user.role) {
+      case UserType.admin:
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminPage(user)));
+        return;
+      case UserType.deliveryMan:
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryPage(user)));
+        return;
+      case UserType.vendor:
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>VendorPage(user)));
+        return;
+      case UserType.customer:
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerPage(user)));
+        return;
+      default:
+        return;
+    }
+  }
+
 }

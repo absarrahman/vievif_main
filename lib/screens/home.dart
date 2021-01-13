@@ -33,21 +33,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  int tabIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'Home'),
+              icon: Icon(Icons.home_outlined), label: 'Accueil'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_basket_outlined), label: 'Categories'),
+              icon: Icon(Icons.shopping_basket_outlined), label: 'Tous les produits'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_outlined), label: 'Wishlist'),
+              icon: Icon(Icons.favorite_border_outlined), label: 'Envies'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline), label: 'Wishlist'),
+              icon: Icon(Icons.person_outline), label: 'Mon compte'),
         ],
         currentIndex: tabIndex,
         onTap: (index) {
@@ -60,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         unselectedFontSize: 10,
         selectedItemColor: kYellowish,
         unselectedItemColor: kRedColor,
-      ),
+      ),*/
       body: categories == null
           ? CommonWidgets.loading()
           : CustomScrollView(
