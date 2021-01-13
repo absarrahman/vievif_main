@@ -51,7 +51,7 @@ class CommonWidgets {
 
   static Widget rowProducts(List<ProductModel> products) {
     return Container(
-      height: 184,
+      height: 200,
       child: ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),

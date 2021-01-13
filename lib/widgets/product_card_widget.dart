@@ -28,8 +28,9 @@ class ProductCardWidget extends StatelessWidget {
       visible: product.store.vendorShopLogo!=null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(child: Image.network('https:${product.store.vendorShopLogo}',height: 20,)),
+          Flexible(fit: FlexFit.loose,child: Image.network('https:${product.store.vendorShopLogo}',height: 20,)),
           SizedBox(
             width: 5,
           ),
