@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
@@ -28,7 +29,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   int amount = 0;
 
   //List<String> selectedList = List(2);
-  List<VariableModel> selectedList = List(2);
+  //List<VariableModel> selectedList = List(1);
   bool isAttribute1, isAttribute2;
   bool isFavorite;
   VariableModel selected;
@@ -49,6 +50,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     isAttribute2 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&
         (widget.product.attributes[1].options.length > 1);
+    print('Price is ${selected != null ? selected.price : ''}');
     return Container(
       child: Stack(
         children: [
@@ -92,12 +94,20 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   RatingWidget(rating: widget.product.averageRating),
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: HtmlWidget(
-                      widget.product.priceHtml,
-                      webView: true,
-                      textStyle:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-                    ),
+                    child: selected == null
+                        ? HtmlWidget(
+                            widget.product.priceHtml,
+                            webView: true,
+                            textStyle: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w400),
+                          )
+                        : Text(
+                            selected.salePrice == ''
+                                ? numberFormatter(selected.price)
+                                : numberFormatter(selected.salePrice),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w400),
+                          ),
                   ),
                 ],
               ),
@@ -106,7 +116,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               ),
               Visibility(
                 visible: isAttribute1,
-                child: Center(child: varOptions(widget.variableList, isAttribute1, isAttribute2)),
+                child: Center(
+                    child: varOptions(
+                        widget.variableList, isAttribute1, isAttribute2)),
               ),
               SizedBox(
                 height: 20,
@@ -177,6 +189,20 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
+  String numberFormatter(String value) {
+    return FlutterMoneyFormatter(
+            amount: double.parse(value),
+            settings: MoneyFormatterSettings(
+                //symbol: '€',
+                thousandSeparator: '.',
+                decimalSeparator: ',',
+                symbolAndNumberSeparator: ' ',
+                fractionDigits: 2,
+                compactFormatType: CompactFormatType.short))
+        .output
+        .nonSymbol + '€';
+  }
+
   Widget varOptions(
       List<VariableModel> variable, bool isAttribute1, bool isAttribute2) {
     return Padding(
@@ -203,9 +229,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
 
   /*Widget attributeDetails(
       AttributeModel attribute, int index, List<VariableModel> variable) {
-    *//*return Text((product.attributes.length > 0) && (product.attributes != null)
+    */ /*return Text((product.attributes.length > 0) && (product.attributes != null)
         ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
-        : '');*//*
+        : '');*/ /*
     return Column(
       children: [
         Text(
