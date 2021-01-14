@@ -122,7 +122,6 @@ class _ProductPageState extends State<ProductPage> {
             child: GridView.count(
               controller: _scrollController,
               crossAxisCount: 2,
-              //shrinkWrap: true,
               scrollDirection: Axis.vertical,
               physics: ClampingScrollPhysics(),
               children: itemList

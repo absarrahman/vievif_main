@@ -26,9 +26,12 @@ class ProductDetailsWidget extends StatefulWidget {
 class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   final CarouselController _carouselController = CarouselController();
   int amount = 0;
-  List<String> selectedList = List(2);
+
+  //List<String> selectedList = List(2);
+  List<VariableModel> selectedList = List(2);
   bool isAttribute1, isAttribute2;
   bool isFavorite;
+  VariableModel selected;
 
   @override
   Widget build(BuildContext context) {
@@ -103,18 +106,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               ),
               Visibility(
                 visible: isAttribute1,
-                child: Center(
-                  child: attributeDetails(widget.product.attributes[0], 0),
-                ),
+                child: Center(child: varOptions(widget.variableList, isAttribute1, isAttribute2)),
               ),
               SizedBox(
                 height: 20,
-              ),
-              Visibility(
-                visible: isAttribute2,
-                child: Center(
-                  child: attributeDetails(widget.product.attributes[1], 1),
-                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,10 +146,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               child: Text(
                                 'En rupture de stock',
                                 style: TextStyle(
-                                  color: kRedColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15
-                                ),
+                                    color: kRedColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
                               ),
                             ),
                             decoration: BoxDecoration(
@@ -183,10 +177,35 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  Widget attributeDetails(AttributeModel attribute, int index) {
-    /*return Text((product.attributes.length > 0) && (product.attributes != null)
+  Widget varOptions(
+      List<VariableModel> variable, bool isAttribute1, bool isAttribute2) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: DropdownButton<VariableModel>(
+        hint: Text('Choisir une option'),
+        value: selected,
+        icon: Icon(Icons.color_lens_outlined),
+        items: variable.map((VariableModel value) {
+          return DropdownMenuItem(
+            value: value,
+            child: Text(
+                '${value.attributes[0].name} ${value.attributes[0].option} \n${isAttribute2 ? value.attributes[1].name.toString() + ' ' + value.attributes[1].option.toString() : ''}'),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            selected = value;
+          });
+        },
+      ),
+    );
+  }
+
+  /*Widget attributeDetails(
+      AttributeModel attribute, int index, List<VariableModel> variable) {
+    *//*return Text((product.attributes.length > 0) && (product.attributes != null)
         ? ('${product.attributes[0].options.join('\n\n').toUpperCase().toString()}')
-        : '');*/
+        : '');*//*
     return Column(
       children: [
         Text(
@@ -198,14 +217,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: DropdownButton(
+          child: DropdownButton<VariableModel>(
             hint: Text('Choisir une option'),
             value: selectedList[index],
             icon: Icon(Icons.color_lens_outlined),
-            items: attribute.options.map((String value) {
-              return new DropdownMenuItem(
+            items: variable.map((VariableModel value) {
+              return DropdownMenuItem(
                 value: value,
-                child: Text(value),
+                child: Text('${value.attributes[index].option}'),
               );
             }).toList(),
             onChanged: (value) {
@@ -217,7 +236,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
         ),
       ],
     );
-  }
+  }*/
 
   Widget relatedProducts() {
     return Container(
