@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   callCategory() async {
     categories = await ApiService().getCategories();
     products = await ApiService().getProducts(pgNumber: 1, orderBy: 'modified');
+    if (!mounted) return;
     setState(() {});
   }
 

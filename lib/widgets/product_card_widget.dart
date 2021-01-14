@@ -23,7 +23,7 @@ class ProductCardWidget extends StatelessWidget {
     );
   }
 
-  Widget vendorPanel(ProductModel product) {
+  /*Widget vendorPanel(ProductModel product) {
     return Visibility(
       visible: product.store.vendorShopLogo!=null,
       child: Row(
@@ -38,7 +38,7 @@ class ProductCardWidget extends StatelessWidget {
         ],
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class ProductCardWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: vendorPanel(product),
+                          child: CommonWidgets.vendorPanel(product),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),

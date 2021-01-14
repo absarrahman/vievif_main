@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/screens/home.dart';
+import 'package:vievif/screens/my_account_page.dart';
 import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/screens/wishlist_page.dart';
 import 'package:vievif/utils/colors.dart';
@@ -15,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
     HomePage(),
     ProductPage(),
     WishListPage(),
-    WishListPage(),
+    MyAccountPage(),
   ];
   @override
   Widget build(BuildContext context) {

@@ -39,8 +39,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     var wishlistProvider =
         Provider.of<WishListProvider>(context, listen: false);
     isFavorite =
-        wishlistProvider.productList.contains(widget.product) ? true : false;
-    debugPrint('Attributes ${isFavorite}');
+        wishlistProvider.productIDList.contains(widget.product.id) ? true : false;
+    debugPrint('Attributes $isFavorite');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
     debugPrint('Vendor Image ${widget.product.type}');
     //int x = 1;
@@ -67,22 +67,25 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: itemName(widget.product),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FavoriteButton(
-                  isFavorite: isFavorite,
-                  valueChanged: (_isFavorite) {
-                    /*isFavorite = _isFavorite;
-                    isFavorite == false
-                        ? wishlistProvider.removeProduct(widget.product)
-                        : wishlistProvider.addProduct(widget.product);*/
-                    setState(() {
-                      isFavorite = _isFavorite;
-                    });
-                    isFavorite == false
-                        ? wishlistProvider.removeProduct(widget.product)
-                        : wishlistProvider.addProduct(widget.product);
-                  },
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right:16.0),
+                  child: FavoriteButton(
+                    isFavorite: isFavorite,
+                    valueChanged: (_isFavorite) {
+                      /*isFavorite = _isFavorite;
+                      isFavorite == false
+                          ? wishlistProvider.removeProduct(widget.product)
+                          : wishlistProvider.addProduct(widget.product);*/
+                      setState(() {
+                        isFavorite = _isFavorite;
+                      });
+                      isFavorite == false
+                          ? wishlistProvider.removeProduct(widget.product)
+                          : wishlistProvider.addProduct(widget.product);
+                    },
+                  ),
                 ),
               ),
               SizedBox(
@@ -103,8 +106,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           )
                         : Text(
                             selected.salePrice == ''
-                                ? numberFormatter(selected.price)
-                                : numberFormatter(selected.salePrice),
+                                ? CommonWidgets.numberFormatter(selected.price)
+                                : CommonWidgets.numberFormatter(selected.salePrice),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w400),
                           ),
@@ -189,19 +192,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  String numberFormatter(String value) {
-    return FlutterMoneyFormatter(
-            amount: double.parse(value),
-            settings: MoneyFormatterSettings(
-                //symbol: '€',
-                thousandSeparator: '.',
-                decimalSeparator: ',',
-                symbolAndNumberSeparator: ' ',
-                fractionDigits: 2,
-                compactFormatType: CompactFormatType.short))
-        .output
-        .nonSymbol + '€';
-  }
 
   Widget varOptions(
       List<VariableModel> variable, bool isAttribute1, bool isAttribute2) {

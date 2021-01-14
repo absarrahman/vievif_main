@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/utils/colors.dart';
@@ -72,6 +73,37 @@ class CommonWidgets {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  static Widget vendorPanel(ProductModel product) {
+    return Visibility(
+      visible: product.store.vendorShopLogo!=null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(fit: FlexFit.loose,child: Image.network('https:${product.store.vendorShopLogo}',height: 20,)),
+          SizedBox(
+            width: 5,
+          ),
+          Flexible(child: Text(product.store.vendorDisplayName.toString()))
+        ],
+      ),
+    );
+  }
+
+  static String numberFormatter(String value) {
+    return FlutterMoneyFormatter(
+        amount: double.parse(value),
+        settings: MoneyFormatterSettings(
+          //symbol: '€',
+            thousandSeparator: '.',
+            decimalSeparator: ',',
+            symbolAndNumberSeparator: ' ',
+            fractionDigits: 2,
+            compactFormatType: CompactFormatType.short))
+        .output
+        .nonSymbol + '€';
   }
 
 }
