@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/provider/products_provider.dart';
 import 'package:vievif/provider/user_provider.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => WishListProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
         ),
       ],
       child: MaterialApp(

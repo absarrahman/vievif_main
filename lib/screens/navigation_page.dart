@@ -5,6 +5,8 @@ import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/screens/wishlist_page.dart';
 import 'package:vievif/utils/colors.dart';
 
+import 'cart_page.dart';
+
 class NavigationPage extends StatefulWidget {
   @override
   _NavigationPageState createState() => _NavigationPageState();
@@ -14,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
   int tabIndex = 0;
   List<Widget> _navigateTabList = [
     HomePage(),
-    ProductPage(),
+    CartPage(),
     WishListPage(),
     MyAccountPage(),
   ];

@@ -4,7 +4,7 @@ import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/screens/product_details_page.dart';
 import 'package:vievif/widgets/common_widgets.dart';
-import 'package:vievif/widgets/wishlist_widget.dart';
+import 'package:vievif/widgets/list_card_widget.dart';
 
 class WishListPage extends StatelessWidget {
   @override

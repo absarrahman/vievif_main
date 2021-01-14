@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/variable_model.dart';
+import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
@@ -38,12 +38,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   Widget build(BuildContext context) {
     var wishlistProvider =
         Provider.of<WishListProvider>(context, listen: false);
-    isFavorite =
-        wishlistProvider.productIDList.contains(widget.product.id) ? true : false;
+    var cartProvider = Provider.of<CartProvider>(context, listen: false);
+    isFavorite = wishlistProvider.productIDList.contains(widget.product.id)
+        ? true
+        : false;
+
     debugPrint('Attributes $isFavorite');
-    //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
     debugPrint('Vendor Image ${widget.product.type}');
-    //int x = 1;
+
     isAttribute1 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&
         (widget.product.attributes[0].options.length > 1);
@@ -70,7 +72,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right:16.0),
+                  padding: const EdgeInsets.only(right: 16.0),
                   child: FavoriteButton(
                     isFavorite: isFavorite,
                     valueChanged: (_isFavorite) {
@@ -107,7 +109,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         : Text(
                             selected.salePrice == ''
                                 ? CommonWidgets.numberFormatter(selected.price)
-                                : CommonWidgets.numberFormatter(selected.salePrice),
+                                : CommonWidgets.numberFormatter(
+                                    selected.salePrice),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w400),
                           ),
@@ -138,16 +141,20 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         value: this.amount,
                         stepperIconSize: 22,
                         onChanged: (value) {
-                          print(value);
+                          amount = value;
                         }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: widget.product.stockQuantity > 0
+                    child: widget.product.purchasable
                         ? FlatButton(
                             height: 50,
                             color: kYellowish,
-                            onPressed: () {},
+                            onPressed: () {
+                              if (selected != null && (amount>0)) {
+                                cartProvider.addProduct(product: widget.product,variation: selected,quantity: amount);
+                              }
+                            },
                             child: Text(
                               'Ajouter au panier',
                               style: TextStyle(color: kSurfaceWhite),
@@ -191,7 +198,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
       ),
     );
   }
-
 
   Widget varOptions(
       List<VariableModel> variable, bool isAttribute1, bool isAttribute2) {
