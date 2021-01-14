@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
+import 'package:vievif/models/variable_model.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
@@ -14,8 +15,9 @@ import 'package:vievif/widgets/stepper_counter.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   final ProductModel product;
+  final List<VariableModel> variableList;
 
-  ProductDetailsWidget(this.product);
+  ProductDetailsWidget({this.product, this.variableList});
 
   @override
   _ProductDetailsWidgetState createState() => _ProductDetailsWidgetState();
@@ -36,7 +38,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
         wishlistProvider.productList.contains(widget.product) ? true : false;
     debugPrint('Attributes ${isFavorite}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
-    debugPrint('Vendor Image ${widget.product.purchasable}');
+    debugPrint('Vendor Image ${widget.product.type}');
     //int x = 1;
     isAttribute1 = (widget.product.attributes.length > 0) &&
         (widget.product.attributes != null) &&

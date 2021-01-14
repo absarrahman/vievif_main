@@ -66,6 +66,7 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CommonWidgets.appbar(),
       body: Column(
@@ -87,12 +88,10 @@ class _ProductPageState extends State<ProductPage> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: Text(
-                        'No items available',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                    Text(
+                      'No items available',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ],
                 );
@@ -100,7 +99,10 @@ class _ProductPageState extends State<ProductPage> {
               print(
                   'Loading status is ${productProvider.getLoadStatus() == LoadStatus.DONE}');
               print('Length is ${productProvider.productList.length}');
-              return CommonWidgets.loading();
+              return Padding(
+                padding: EdgeInsets.only(top: (size.height/3.5)*1.0),
+                child: CommonWidgets.loading(),
+              );
             }),
           ),
         ],

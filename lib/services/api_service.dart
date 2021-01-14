@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/user_model.dart';
+import 'package:vievif/models/variable_model.dart';
 import 'package:vievif/services/config.dart';
 
 class ApiService {
@@ -123,8 +123,8 @@ class ApiService {
       String id = (response.data['data']['id']).toString();
       print('ID is $token');
       // https://example.com/wp-json/wp/v2/users/<id>
-      print('ID PATH ${WooConfig.userDetailsUrl +
-          '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
+      print(
+          'ID PATH ${WooConfig.userDetailsUrl + '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
       response = await Dio().get(
           WooConfig.userDetailsUrl +
               '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
@@ -140,6 +140,31 @@ class ApiService {
       return user;
     } on DioError catch (e) {
       print("Error " + e.toString());
+    }
+  }
+
+  Future<List<VariableModel>> getVariableProductList(String productID) async {
+    String path = WooConfig.baseUrl +
+        WooConfig.productsUrl +
+        '$productID/${WooConfig.variableProductUrl}?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+
+    print('VAR API PATH $path');
+    List<VariableModel> data = List<VariableModel>();
+
+    try{
+      var response = await Dio().get(path,options: Options(
+          headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+
+      if (response.statusCode == 200) {
+        var body = response.data as List; //need list
+        for (int i = 0; i < body.length; i++) {
+          data.add(VariableModel.fromJson(body[i]));
+        }
+      }
+      return data;
+
+    } catch (e) {
+      print(e.toString());
     }
   }
 }
