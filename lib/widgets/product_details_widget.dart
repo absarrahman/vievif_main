@@ -31,8 +31,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     var wishlistProvider =
-    Provider.of<WishListProvider>(context,listen: false);
-    isFavorite = wishlistProvider.productList.contains(widget.product)?true:false;
+        Provider.of<WishListProvider>(context, listen: false);
+    isFavorite =
+        wishlistProvider.productList.contains(widget.product) ? true : false;
     debugPrint('Attributes ${isFavorite}');
     //  debugPrint('Vendor mobile banner ${product.store.mobileBanner}');
     debugPrint('Vendor Image ${widget.product.purchasable}');
@@ -120,7 +121,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: StepperCounter(
                         lowerBound: 0,
-                        upperBound: 10,
+                        upperBound: widget.product.stockQuantity,
                         stepIncrementValue: 1,
                         value: this.amount,
                         stepperIconSize: 22,
@@ -130,16 +131,35 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: FlatButton(
-                      height: 50,
-                      color: kYellowish,
-                      onPressed: () {},
-                      child: Text(
-                        'Ajouter au panier',
-                        style: TextStyle(color: kSurfaceWhite),
-                      ),
-                      shape: StadiumBorder(),
-                    ),
+                    child: widget.product.stockQuantity > 0
+                        ? FlatButton(
+                            height: 50,
+                            color: kYellowish,
+                            onPressed: () {},
+                            child: Text(
+                              'Ajouter au panier',
+                              style: TextStyle(color: kSurfaceWhite),
+                            ),
+                            shape: StadiumBorder(),
+                          )
+                        : Container(
+                            height: 50,
+                            width: 150,
+                            child: Center(
+                              child: Text(
+                                'En rupture de stock',
+                                style: TextStyle(
+                                  color: kRedColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: kYellowish,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
                   )
                 ],
               ),

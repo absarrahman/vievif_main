@@ -59,7 +59,7 @@ class _ProductPageState extends State<ProductPage> {
       productProvider.resetStreams();
       productProvider.setLoadingStatus(LoadStatus.BEGIN);
       productProvider.getProducts(_pgNumber,
-          categoryID: widget.categoryId.toString(),
+          categoryID: widget.categoryId!=null?widget.categoryId.toString():null,
           searchProduct: _searchItemController.text);
     });
   }
