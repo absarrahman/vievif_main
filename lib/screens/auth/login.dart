@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:progress_indicator_button/progress_button.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/admin/admin_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/customer/customer_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/delivery/delivery_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/vendor/vendor_screen.dart';
 import 'package:vievif/services/api_service.dart';
-import 'package:vievif/services/config.dart';
 import 'package:vievif/services/user_route.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
@@ -23,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    var userProvider = Provider.of<UserProvider>(context,listen: false);
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
       appBar: CommonWidgets.appbar(),
@@ -31,8 +27,11 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             Container(
-              child: Image.asset('assets/images/logo.png',height: screenWidth * 0.77,
-                width: screenWidth * 0.77,),
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: screenWidth * 0.77,
+                width: screenWidth * 0.77,
+              ),
             ),
             SizedBox(
               height: 40,
@@ -55,7 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                     prefixIcon: Icon(Icons.email),
                     //border: InputBorder.none,
                     hintText: "Identifiant ou adresse de messagerie",
-                    hintStyle: TextStyle(color: Colors.grey,fontStyle: FontStyle.italic),
+                    hintStyle: TextStyle(
+                        color: Colors.grey, fontStyle: FontStyle.italic),
                   ),
                   onChanged: (value) {
                     userProvider.setEmail(value);
@@ -83,7 +83,9 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.vpn_key,),
+                    prefixIcon: Icon(
+                      Icons.vpn_key,
+                    ),
                     //border: InputBorder.none,
                     hintText: "Mot de passe",
                     hintStyle: TextStyle(color: Colors.grey),
@@ -98,41 +100,42 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: screenHeight * 0.08,
             ),
-            Container(
-              alignment: Alignment.center,
-              child: ButtonTheme(
-                minWidth: 130.0,
-                height: 50.0,
-                child: RaisedButton(
+
+            Center(
+              child: Container(
+                width: 200,
+                height: 50,
+                child: ProgressButton(
+                  color: kYellowish,
+                  progressIndicatorColor: kRedColor,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  strokeWidth: 2,
                   child: Text(
                     "Identification",
                     style: TextStyle(
-                      fontSize: 20.0,
-                      color: kSurfaceWhite
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  onPressed: () async {
+                  onPressed: (AnimationController controller) async {
+                    controller.forward();
                     var email = userProvider.email;
                     var password = userProvider.password;
-
                     try {
-                      UserModel user =
-                          await ApiService().login(email, password);
+                      UserModel user = await ApiService().login(email, password);
                       print('USER TOKEN LOGIN ${user.token}');
                       userProvider.setUser(user);
                       userProvider.setLoginStatus(true);
-                      UserRoute.navigateUserScreen(user: user,context: context,isFromLoginPage: true);
+                      controller.reverse();
+                      UserRoute.navigateUserScreen(
+                          user: user, context: context, isFromLoginPage: true);
                     } catch (e) {
                       print('ERROR');
+                      controller.reverse();
                       _exitDialogue();
                     }
                   },
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-                buttonColor: Color(0xffffaa3c),
               ),
             ),
           ],
@@ -172,5 +175,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }
