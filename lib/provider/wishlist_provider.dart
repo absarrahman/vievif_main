@@ -15,7 +15,8 @@ class WishListProvider with ChangeNotifier {
   }
 
   void removeProduct(ProductModel productModel) {
-    _productList.remove(productModel);
+    var index = _productList.indexWhere((element) => element.id == productModel.id);
+    _productList.removeAt(index);
     _productIDList.remove(productModel.id);
     notifyListeners();
   }
