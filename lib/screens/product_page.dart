@@ -89,7 +89,8 @@ class _ProductPageState extends State<ProductPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'No items available',
+                      'Aucun produit ne correspond à votre sélection.',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
