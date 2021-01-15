@@ -257,8 +257,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           return DropdownMenuItem(
             value: value,
             child: Text(
-                '${value.attributes[0].name} ${value.attributes[0]
-                    .option} \n${isAttribute2
+                '${isAttribute1?value.attributes[0].name+ ' ' +value.attributes[0]
+                    .option:''} \n${isAttribute2
                     ? value.attributes[1].name.toString() + ' ' +
                     value.attributes[1].option.toString()
                     : ''}'),
