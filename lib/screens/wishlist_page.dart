@@ -26,8 +26,17 @@ class WishListPage extends StatelessWidget {
                 );
               })
           : Center(
-              child: Container(
-                child: Text('Empty'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Il n\'y a rien dans votre \“mes envies\”',
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
               ),
             ),
     );

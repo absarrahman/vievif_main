@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/cart_provider.dart';
@@ -42,7 +43,9 @@ class CartPage extends StatelessWidget {
             )
           : Center(
               child: Container(
-                child: Text('Empty'),
+                child: Text('Aucun article dans le panier.',style: TextStyle(
+                  fontSize: 25
+                ),),
               ),
             ),
     );
