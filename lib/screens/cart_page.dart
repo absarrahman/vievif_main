@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/style.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/screens/product_details_page.dart';
+import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/list_card_widget.dart';
 
@@ -12,18 +12,16 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var cartProvider = Provider.of<CartProvider>(context);
     print('CART LENGTH is ${cartProvider.cartItems.length}');
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CommonWidgets.appbar(),
       body: cartProvider.cartItems != null && cartProvider.cartItems.length > 0
           ? Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text('Total amount ${cartProvider.totalAmount}')),
+                Container(
+                  width: size.width,
+                  child: buyNow(cartProvider.totalAmount),
+                  color: kYellowish,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -43,11 +41,43 @@ class CartPage extends StatelessWidget {
             )
           : Center(
               child: Container(
-                child: Text('Aucun article dans le panier.',style: TextStyle(
-                  fontSize: 25
-                ),),
+                child: Text(
+                  'Aucun article dans le panier.',
+                  style: TextStyle(fontSize: 25),
+                ),
               ),
             ),
+    );
+  }
+
+  Widget buyNow(double totalAmount) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+              child: Text(
+            'Total amount\n${CommonWidgets.numberFormatter(totalAmount.toString())}',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          )),
+          SizedBox(
+            width: 20,
+          ),
+          Flexible(
+            child: RaisedButton(
+              color: kRedColor,
+              onPressed: () => {},
+              child: Text('Valider la commande',style: TextStyle(
+                color: kSurfaceWhite,
+                fontSize: 15,
+              ),),
+              shape: StadiumBorder(),
+            ),
+          )
+        ],
+      ),
     );
   }
 

@@ -187,11 +187,24 @@ class CartListCard extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Quantité ${cart.quantity}',style: TextStyle(
                               fontSize: 15
-                            ),)
+                            ),),
+                            Text('VAT 20%',style: TextStyle(
+                                fontSize: 15
+                            ),),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: Text('Total ${CommonWidgets.numberFormatter((cart.price + (cart.price * 0.2)).toString())}',style: TextStyle(
+                              fontSize: 15
+                          ),
+                            textAlign: TextAlign.center,),
                         ),
                       ],
                     ),

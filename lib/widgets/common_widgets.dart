@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/product_card_widget.dart';
@@ -15,6 +16,7 @@ class CommonWidgets {
   }
   static Widget appbar() {
     return AppBar(
+      elevation: 0,
       automaticallyImplyLeading: true,
       backgroundColor: kYellowish,
       //title: Image.asset('assets/images/logo.png',fit: BoxFit.cover,width: 200,),

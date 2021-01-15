@@ -7,6 +7,7 @@ import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/variable_model.dart';
 import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
+import 'package:vievif/screens/cart_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
@@ -37,7 +38,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     var wishlistProvider =
-        Provider.of<WishListProvider>(context, listen: false);
+    Provider.of<WishListProvider>(context, listen: false);
     var cartProvider = Provider.of<CartProvider>(context, listen: false);
     isFavorite = wishlistProvider.productIDList.contains(widget.product.id)
         ? true
@@ -102,19 +103,19 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: selected == null
                         ? HtmlWidget(
-                            widget.product.priceHtml,
-                            webView: true,
-                            textStyle: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w400),
-                          )
+                      widget.product.priceHtml,
+                      webView: true,
+                      textStyle: TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.w400),
+                    )
                         : Text(
-                            selected.salePrice == ''
-                                ? CommonWidgets.numberFormatter(selected.price)
-                                : CommonWidgets.numberFormatter(
-                                    selected.salePrice),
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w400),
-                          ),
+                      selected.salePrice == ''
+                          ? CommonWidgets.numberFormatter(selected.price)
+                          : CommonWidgets.numberFormatter(
+                          selected.salePrice),
+                      style: TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
                   ),
                 ],
               ),
@@ -149,55 +150,64 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: widget.product.purchasable
                         ? FlatButton(
-                            height: 50,
-                            color: kYellowish,
-                            onPressed: () {
-                              double price = amount * double.parse(selected.price);
-                              print('Price is $price');
-                              if (selected != null && (amount > 0)) {
-                                cartProvider.addProduct(
-                                  product: widget.product,
-                                  variation: selected,
-                                  quantity: amount,
-                                  isAttribute1: isAttribute1,
-                                  isAttribute2: isAttribute2,
-                                  price: price,
-                                );
-                                print("WITH SELECTED");
-                              } else if (!(isAttribute1) && (amount > 0)) {
-                                cartProvider.addProduct(
-                                  product: widget.product,
-                                  quantity: amount,
-                                  isAttribute1: isAttribute1,
-                                  isAttribute2: isAttribute2,
-                                  price: price,
-                                );
-                                print("WITHOUT SELECTED");
-                              }
-                            },
-                            child: Text(
-                              'Ajouter au panier',
-                              style: TextStyle(color: kSurfaceWhite),
-                            ),
-                            shape: StadiumBorder(),
-                          )
+                      height: 50,
+                      color: kYellowish,
+                      onPressed: () {
+                        if (selected == null) {
+                          showToast(message:"Please select items properly",context: context);
+                        } else {
+                          double price = amount * double.parse(
+                              selected.price);
+                          print('Price is $price');
+                          if (selected != null && (amount > 0)) {
+                            cartProvider.addProduct(
+                              product: widget.product,
+                              variation: selected,
+                              quantity: amount,
+                              isAttribute1: isAttribute1,
+                              isAttribute2: isAttribute2,
+                              price: price,
+                            );
+                            print("WITH SELECTED");
+                            showToast(message:"Successfully added",context: context,widget: CartPage());
+                          } else if (!(isAttribute1) && (amount > 0)) {
+                            cartProvider.addProduct(
+                              product: widget.product,
+                              quantity: amount,
+                              isAttribute1: isAttribute1,
+                              isAttribute2: isAttribute2,
+                              price: price,
+                            );
+                            print("WITHOUT SELECTED");
+                            showToast(message:"Successfully added",context: context,widget: CartPage());
+                          } else {
+                            showToast(message:"Amount not selected", context: context);
+                          }
+                        }
+                      },
+                      child: Text(
+                        'Ajouter au panier',
+                        style: TextStyle(color: kSurfaceWhite),
+                      ),
+                      shape: StadiumBorder(),
+                    )
                         : Container(
-                            height: 50,
-                            width: 150,
-                            child: Center(
-                              child: Text(
-                                'En rupture de stock',
-                                style: TextStyle(
-                                    color: kRedColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              color: kYellowish,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                      height: 50,
+                      width: 150,
+                      child: Center(
+                        child: Text(
+                          'En rupture de stock',
+                          style: TextStyle(
+                              color: kRedColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: kYellowish,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -219,8 +229,24 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  Widget varOptions(
-      List<VariableModel> variable, bool isAttribute1, bool isAttribute2) {
+  showToast({String message, BuildContext context, Widget widget, String widgetName}) {
+    //Ajouté au panier avec succès
+    if (widget == null) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(message),
+        action: SnackBarAction(label: 'Mon panier',
+          onPressed: () => goToAddCart(context, widget),),),);
+    }
+  }
+
+  goToAddCart(BuildContext context, Widget widget) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => widget));
+  }
+
+  Widget varOptions(List<VariableModel> variable, bool isAttribute1,
+      bool isAttribute2) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: DropdownButton<VariableModel>(
@@ -231,7 +257,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           return DropdownMenuItem(
             value: value,
             child: Text(
-                '${value.attributes[0].name} ${value.attributes[0].option} \n${isAttribute2 ? value.attributes[1].name.toString() + ' ' + value.attributes[1].option.toString() : ''}'),
+                '${value.attributes[0].name} ${value.attributes[0]
+                    .option} \n${isAttribute2
+                    ? value.attributes[1].name.toString() + ' ' +
+                    value.attributes[1].option.toString()
+                    : ''}'),
           );
         }).toList(),
         onChanged: (value) {
@@ -310,7 +340,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   }
 
   Widget productAllImages(BuildContext context, List<ImageModel> imageList) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     print('IMAGE LINK ${imageList[0].src}');
     return SizedBox(
       height: 300,

@@ -16,7 +16,7 @@ class CartProvider with ChangeNotifier {
     for(int i = 0; i<_cartItems.length; i++) {
       _totalAmount += double.parse(_cartItems[i].product.price) * _cartItems[i].quantity;
     }
-    return _totalAmount;
+    return _totalAmount + (_totalAmount * 0.2);
   }
 
   void addProduct({ProductModel product, int quantity, VariableModel variation, bool isAttribute1, bool isAttribute2, double price}) {

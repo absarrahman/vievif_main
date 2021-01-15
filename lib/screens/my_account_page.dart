@@ -5,6 +5,7 @@ import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 import 'auth/login.dart';
+import 'cart_page.dart';
 
 class MyAccountPage extends StatelessWidget {
   @override
@@ -52,7 +53,7 @@ class MyAccountPage extends StatelessWidget {
                 ),
                 clickButton(iconData: Icons.shopping_cart,
                   context: context,
-                  widget: WishListPage(),
+                  widget: CartPage(),
                   title: 'Mon panier'
                 ),
                 SizedBox(
