@@ -5,6 +5,8 @@ class CartModel {
   int quantity;
   ProductModel product;
   VariableModel variation;
+  bool isAttribute1,isAttribute2;
+  double price;
 
-  CartModel({this.quantity, this.product, this.variation});
+  CartModel({this.quantity, this.product, this.variation, this.isAttribute1, this.isAttribute2, this.price});
 }

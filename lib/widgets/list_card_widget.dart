@@ -4,15 +4,15 @@ import 'package:vievif/models/product_model.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class ProductListCard extends StatelessWidget {
-
   final ProductModel product;
-
 
   ProductListCard({this.product});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
     return Material(
       elevation: 10,
@@ -64,9 +64,7 @@ class ProductListCard extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 product.name,
-                                style: TextStyle(
-                                  fontSize: 20
-                                ),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
                             Flexible(
@@ -74,9 +72,7 @@ class ProductListCard extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   CommonWidgets.numberFormatter(product.price),
-                                  style: TextStyle(
-                                      fontSize: 20
-                                  ),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ),
                             ),
@@ -96,15 +92,15 @@ class ProductListCard extends StatelessWidget {
 }
 
 class CartListCard extends StatelessWidget {
-
   final CartModel cart;
-
 
   CartListCard({this.cart});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
     return Material(
       elevation: 10,
@@ -156,30 +152,45 @@ class CartListCard extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 cart.product.name,
-                                style: TextStyle(
-                                    fontSize: 20
-                                ),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
                             Flexible(
-                              child: Text(
-                                cart.product.name,
-                                style: TextStyle(
-                                    fontSize: 20
-                                ),
+                              child: Visibility(
+                                visible: cart.variation != null,
+                                child: cart.isAttribute1
+                                    ? Text(
+                                  '${cart.variation.attributes[0].name} ${cart
+                                      .variation.attributes[0].option}\n'
+                                      '${cart.isAttribute2 ? cart.variation
+                                      .attributes[1].name : ''} ${cart
+                                      .isAttribute2 ? cart.variation
+                                      .attributes[1].option : ''}', style:TextStyle(
+                                  fontSize: 20
+                                ),)
+                                    : Container(),
                               ),
                             ),
                             Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  CommonWidgets.numberFormatter(cart.product.price),
-                                  style: TextStyle(
-                                      fontSize: 20
-                                  ),
+                                  CommonWidgets.numberFormatter(
+                                      cart.price.toString()),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Text('Quantité ${cart.quantity}',style: TextStyle(
+                              fontSize: 15
+                            ),)
                           ],
                         ),
                       ],

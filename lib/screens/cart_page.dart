@@ -13,24 +13,38 @@ class CartPage extends StatelessWidget {
     print('CART LENGTH is ${cartProvider.cartItems.length}');
     return Scaffold(
       appBar: CommonWidgets.appbar(),
-      body: cartProvider.cartItems != null &&
-          cartProvider.cartItems.length > 0
-          ? ListView.builder(
-          itemCount: cartProvider.cartItems.length,
-          itemBuilder: (context, index) {
-            var cart = cartProvider.cartItems[index];
-            return GestureDetector(
-              onTap: () => _navigateProductPage(cart.product, context),
-              child: CartListCard(
-                cart: cart,
-              ),
-            );
-          })
+      body: cartProvider.cartItems != null && cartProvider.cartItems.length > 0
+          ? Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text('Total amount ${cartProvider.totalAmount}')),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: cartProvider.cartItems.length,
+                      itemBuilder: (context, index) {
+                        var cart = cartProvider.cartItems[index];
+                        return GestureDetector(
+                          onTap: () =>
+                              _navigateProductPage(cart.product, context),
+                          child: CartListCard(
+                            cart: cart,
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            )
           : Center(
-        child: Container(
-          child: Text('Empty'),
-        ),
-      ),
+              child: Container(
+                child: Text('Empty'),
+              ),
+            ),
     );
   }
 

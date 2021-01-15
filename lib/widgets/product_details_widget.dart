@@ -53,6 +53,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
         (widget.product.attributes != null) &&
         (widget.product.attributes[1].options.length > 1);
     print('Price is ${selected != null ? selected.price : ''}');
+    debugPrint('ATTRIBUTE $isAttribute1');
     return Container(
       child: Stack(
         children: [
@@ -151,8 +152,27 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             height: 50,
                             color: kYellowish,
                             onPressed: () {
-                              if (selected != null && (amount>0)) {
-                                cartProvider.addProduct(product: widget.product,variation: selected,quantity: amount);
+                              double price = amount * double.parse(selected.price);
+                              print('Price is $price');
+                              if (selected != null && (amount > 0)) {
+                                cartProvider.addProduct(
+                                  product: widget.product,
+                                  variation: selected,
+                                  quantity: amount,
+                                  isAttribute1: isAttribute1,
+                                  isAttribute2: isAttribute2,
+                                  price: price,
+                                );
+                                print("WITH SELECTED");
+                              } else if (!(isAttribute1) && (amount > 0)) {
+                                cartProvider.addProduct(
+                                  product: widget.product,
+                                  quantity: amount,
+                                  isAttribute1: isAttribute1,
+                                  isAttribute2: isAttribute2,
+                                  price: price,
+                                );
+                                print("WITHOUT SELECTED");
                               }
                             },
                             child: Text(
