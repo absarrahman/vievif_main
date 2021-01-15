@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     //animatedJoinUsText(context),
                     imageSlider(products, context),
                     //_header(),
-                    FlatButton(onPressed: _login, child: Text("login")),
+                    //FlatButton(onPressed: _login, child: Text("login")),
                     CommonWidgets.header('FAITS SAILLANTS'),
                   ]),
                 ),
@@ -240,8 +240,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _login() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
-  }
 }

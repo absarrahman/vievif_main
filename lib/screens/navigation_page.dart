@@ -16,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
   int tabIndex = 0;
   List<Widget> _navigateTabList = [
     HomePage(),
-    CartPage(),
+    ProductPage(),
     WishListPage(),
     MyAccountPage(),
   ];
@@ -28,7 +28,7 @@ class _NavigationPageState extends State<NavigationPage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: 'Accueil'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_basket_outlined), label: 'Tous les produits'),
+              icon: Icon(Icons.shopping_bag_outlined), label: 'Tous les produits'),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border_outlined), label: 'Envies'),
           BottomNavigationBarItem(
