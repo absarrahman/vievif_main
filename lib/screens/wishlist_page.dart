@@ -20,8 +20,14 @@ class WishListPage extends StatelessWidget {
                 var product = wishlistProvider.productList[index];
                 return GestureDetector(
                   onTap: () => _navigateProductPage(product, context),
-                  child: ProductListCard(
-                    product: product,
+                  child: Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      wishlistProvider.removeProduct(product);
+                    },
+                    child: ProductListCard(
+                      product: product,
+                    ),
                   ),
                 );
               })
