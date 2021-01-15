@@ -27,12 +27,18 @@ class CartPage extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: cartProvider.cartItems.length,
                       itemBuilder: (context, index) {
-                        var cart = cartProvider.cartItems[index];
+                        final cart = cartProvider.cartItems[index];
                         return GestureDetector(
                           onTap: () =>
                               _navigateProductPage(cart.product, context),
-                          child: CartListCard(
-                            cart: cart,
+                          child: Dismissible(
+                            key: UniqueKey(),
+                            onDismissed: (direction) {
+                              cartProvider.removeProduct(index);
+                            },
+                            child: CartListCard(
+                              cart: cart,
+                            ),
                           ),
                         );
                       }),
