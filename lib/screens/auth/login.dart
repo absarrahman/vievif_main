@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
-import 'package:vievif/screens/role/admin_screen.dart';
-import 'package:vievif/screens/role/customer_screen.dart';
-import 'package:vievif/screens/role/delivery_screen.dart';
-import 'package:vievif/screens/role/vendor_screen.dart';
+import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/admin/admin_screen.dart';
+import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/customer/customer_screen.dart';
+import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/delivery/delivery_screen.dart';
+import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/vendor/vendor_screen.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/services/config.dart';
+import 'package:vievif/services/user_route.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    var userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context,listen: false);
 
     return Scaffold(
       appBar: CommonWidgets.appbar(),
@@ -119,7 +120,9 @@ class _LoginPageState extends State<LoginPage> {
                       UserModel user =
                           await ApiService().login(email, password);
                       print('USER TOKEN LOGIN ${user.token}');
-                      navigateUserScreen(user);
+                      userProvider.setUser(user);
+                      userProvider.setLoginStatus(true);
+                      UserRoute.navigateUserScreen(user: user,context: context,isFromLoginPage: true);
                     } catch (e) {
                       print('ERROR');
                       _exitDialogue();
@@ -168,25 +171,6 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-  }
-
-  navigateUserScreen(UserModel user) {
-    switch(user.role) {
-      case UserType.admin:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminPage(user)));
-        return;
-      case UserType.deliveryMan:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryPage(user)));
-        return;
-      case UserType.vendor:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>VendorPage(user)));
-        return;
-      case UserType.customer:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerPage(user)));
-        return;
-      default:
-        return;
-    }
   }
 
 }
