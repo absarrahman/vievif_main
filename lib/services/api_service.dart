@@ -151,9 +151,10 @@ class ApiService {
     print('VAR API PATH $path');
     List<VariableModel> data = List<VariableModel>();
 
-    try{
-      var response = await Dio().get(path,options: Options(
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+    try {
+      var response = await Dio().get(path,
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
 
       if (response.statusCode == 200) {
         var body = response.data as List; //need list
@@ -161,10 +162,9 @@ class ApiService {
           data.add(VariableModel.fromJson(body[i]));
         }
       }
-      return data;
-
     } catch (e) {
       print(e.toString());
     }
+    return data;
   }
 }
