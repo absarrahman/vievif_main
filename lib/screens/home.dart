@@ -3,11 +3,11 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
-import 'package:vievif/screens/auth/login.dart';
 import 'package:vievif/screens/product_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/home_product_widget.dart';
 import 'package:vievif/widgets/product_card_widget.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -63,43 +63,59 @@ class _HomePageState extends State<HomePage> {
       body: categories == null
           ? CommonWidgets.loading()
           : CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: kYellowish,
-                  pinned: true,
-                  expandedHeight: 100.0,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Image.asset(
-                      'assets/images/logo.png',
-                      fit: BoxFit.cover,
-                      width: 150,
-                    ),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    //animatedJoinUsText(context),
-                    imageSlider(products, context),
-                    //_header(),
-                    //FlatButton(onPressed: _login, child: Text("login")),
-                    CommonWidgets.header('FAITS SAILLANTS'),
-                  ]),
-                ),
-                SliverToBoxAdapter(
-                  child: CommonWidgets.rowProducts(products),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    SizedBox(
-                      height: 10,
-                    ),
-                    CommonWidgets.header('Catégories'),
-                    _buildListCategory(),
-                  ]),
-                )
-              ],
+        slivers: [
+          SliverAppBar(
+            backgroundColor: kYellowish,
+            pinned: true,
+            expandedHeight: 100.0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Image.asset(
+                'assets/images/logo.png',
+                fit: BoxFit.cover,
+                width: 150,
+              ),
             ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              //animatedJoinUsText(context),
+              imageSlider(products, context),
+              //_header(),
+              //FlatButton(onPressed: _login, child: Text("login")),
+              //CommonWidgets.header('FAITS SAILLANTS'),
+            ]),
+          ),
+          /*SliverToBoxAdapter(
+            child: CommonWidgets.rowProducts(products),
+          ),*/
+          SliverList(
+            delegate: SliverChildListDelegate([
+              SizedBox(
+                height: 10,
+              ),
+              CommonWidgets.header('Catégories'),
+              _buildListCategory(),
+              Center(child: CommonWidgets.header('FAITS SAILLANTS')),
+            ]),
+          ),
+          SliverGrid.count(crossAxisCount: 2,
+            children: products.map((ProductModel product) =>
+                ProductCardWidget(product: product)).toList(),
+          ),
+          SliverPadding(padding: EdgeInsets.all(8), sliver: SliverToBoxAdapter(
+            child: Container(
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeProductPage(orderBy: 'modified',),));
+                },
+                child: Text('See more'),
+              ),
+            ),
+          ),)
+        ],
+      ),
     );
   }
 
@@ -136,13 +152,15 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             var category = categories[index];
             return GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProductPage(
-                          categoryId: category.id,
-                        )),
-              ),
+              onTap: () =>
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProductPage(
+                              categoryId: category.id,
+                            )),
+                  ),
               child: Column(
                 children: [
                   Container(
@@ -167,7 +185,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget imageSlider(List<ProductModel> imageList, BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Container(
       height: 300,
       width: width,
@@ -178,10 +199,11 @@ class _HomePageState extends State<HomePage> {
         dotColor: kYellowish,
         dotIncreasedColor: kRedColor,
         images: imageList
-            .map((item) => Image.network(
-                  'https:${item.images[0].src}',
-                  fit: BoxFit.fitWidth,
-                ))
+            .map((item) =>
+            Image.network(
+              'https:${item.images[0].src}',
+              fit: BoxFit.fitWidth,
+            ))
             .toList(),
       ),
     );

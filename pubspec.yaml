@@ -46,6 +46,7 @@ dependencies:
   flutter_money_formatter: ^0.8.3
   fluttertoast: ^7.1.6
   progress_indicator_button: ^0.0.3
+  im_stepper: ^0.1.2+9
 
 dev_dependencies:
   flutter_test:

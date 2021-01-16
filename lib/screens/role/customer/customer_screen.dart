@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/models/user_model.dart';
+import 'package:vievif/screens/role/customer/test.dart';
 import 'package:vievif/utils/colors.dart';
 
 class CustomerPage extends StatelessWidget {
@@ -27,13 +28,19 @@ class CustomerPage extends StatelessWidget {
             ),
             expandedHeight: 200,
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-
-            ]),
-          ),
+          SliverList(delegate: SliverChildListDelegate(
+            [
+              Container(
+                  color: kYellowish,
+                  child: FlatButton(onPressed: () => goTO(context), child: Text("OK"))),
+            ]
+          ))
         ],
       ),
     );
+  }
+
+  goTO(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> TestPage()));
   }
 }
