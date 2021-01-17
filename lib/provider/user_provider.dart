@@ -25,9 +25,9 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setLoginStatus(bool status){
+  void setLoginStatus(bool status) {
     _isLoggedIn = status;
-    if(! _isLoggedIn) {
+    if (!_isLoggedIn) {
       _user = null;
     }
     notifyListeners();
@@ -35,6 +35,41 @@ class UserProvider with ChangeNotifier {
 
   void setUser(UserModel user) {
     _user = user;
+    notifyListeners();
+  }
+
+  void setUserFirstName(String value) {
+    _user.firstName = value;
+    notifyListeners();
+  }
+
+  void setUserLastName(String value) {
+    _user.lastName = value;
+    notifyListeners();
+  }
+
+  void setUserBillingCountryName(String value) {
+    _user.billing.country = value;
+    notifyListeners();
+  }
+
+  void setUserBillingAddress1(String value) {
+    _user.billing.address1 = value;
+    notifyListeners();
+  }
+
+  void setUserBillingAddress2(String value) {
+    _user.billing.address2 = value;
+    notifyListeners();
+  }
+
+  void setUserBillingCity(String value) {
+    _user.billing.city = value;
+    notifyListeners();
+  }
+
+  void setUserBillingPhone(String value) {
+    _user.billing.phone = value;
     notifyListeners();
   }
 

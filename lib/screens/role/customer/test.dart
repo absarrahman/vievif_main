@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:vievif/utils/colors.dart';
+import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/order/house_address_widget.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -12,12 +14,16 @@ class _IconStepperDemo extends State<TestPage> {
 
   int upperBound = 3;
 
+  List<Widget> _widgets = [
+    AddressWidget(),
+    AddressWidget(),
+    AddressWidget(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('IconStepper Example'),
-      ),
+      appBar: CommonWidgets.appbar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -29,28 +35,23 @@ class _IconStepperDemo extends State<TestPage> {
               icons: [
                 Icon(Icons.house),
                 Icon(Icons.payment),
-                Icon(Icons.access_alarm),
+                Icon(Icons.local_shipping),
               ],
 
-              // activeStep property set to activeStep variable defined above.
               activeStep: activeStep,
 
-              // bound receives value from upperBound.
               upperBound: (bound) => upperBound = bound,
               enableStepTapping: false,
-              // This ensures step-tapping updates the activeStep.
+
               onStepReached: (index) {
                 setState(() {
                   activeStep = index;
                 });
               },
             ),
-            header(),
             Expanded(
-              child: FittedBox(
-                child: Center(
-                  child: Text('$activeStep'),
-                ),
+              child: Center(
+                child: _widgets[activeStep],
               ),
             ),
             Row(
