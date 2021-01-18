@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:vievif/models/order_model.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/user_model.dart';
@@ -166,5 +168,37 @@ class ApiService {
       print(e.toString());
     }
     return data;
+  }
+
+  Future<bool> createOrder(OrderModel order) async {
+    order.customerId = 12; //Need to change later
+
+    bool isOrderCreated = false;
+
+    var authToken = base64.encode(
+        utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));
+
+    String path = WooConfig.baseUrl + WooConfig.orderProductUrl;
+
+    print("AUTH TOKEN IS $authToken");
+
+    try {
+      var response = await Dio().post(
+        path,
+        data: order.toJson(),
+        options: Options(
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader: 'Basic $authToken'
+          },
+        ),
+      );
+      print(response.data);
+
+      isOrderCreated = response.statusCode == 201 ? true : false;
+    } catch (e) {
+      print(e.toString());
+    }
+    return isOrderCreated;
   }
 }

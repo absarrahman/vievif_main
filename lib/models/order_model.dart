@@ -1,76 +1,58 @@
 class OrderModel {
   OrderModel({
-    this.id,
-    this.parentId,
-    this.status,
-    this.discountTotal,
-    this.discountTax,
-    this.shippingTotal,
-    this.shippingTax,
-    this.cartTax,
-    this.total,
-    this.totalTax,
     this.customerId,
-    this.orderKey,
+    this.orderId,
+    this.paymentMethod,
+    this.paymentMethodTitle,
+    this.setPaid,
     this.billing,
     this.shipping,
+    this.lineItems,
+    this.shippingLines,
   });
 
-  int id;
-  int parentId;
-  String status;
-  String discountTotal;
-  String discountTax;
-  String shippingTotal;
-  String shippingTax;
-  String cartTax;
-  String total;
-  String totalTax;
   int customerId;
-  String orderKey;
+  int orderId;
+  String paymentMethod;
+  String paymentMethodTitle;
+  bool setPaid;
   Ing billing;
   Ing shipping;
+  List<LineItem> lineItems;
+  List<ShippingLine> shippingLines;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-    id: json["id"],
-    parentId: json["parent_id"],
-    status: json["status"],
-    discountTotal: json["discount_total"],
-    discountTax: json["discount_tax"],
-    shippingTotal: json["shipping_total"],
-    shippingTax: json["shipping_tax"],
-    cartTax: json["cart_tax"],
-    total: json["total"],
-    totalTax: json["total_tax"],
-    customerId: json["customer_id"],
-    orderKey: json["order_key"],
-    billing: Ing.fromJson(json["billing"]),
-    shipping: Ing.fromJson(json["shipping"]),
-  );
+        paymentMethod: json["payment_method"],
+        customerId: json["customer_id"],
+        orderId: json["id"],
+        paymentMethodTitle: json["payment_method_title"],
+        setPaid: json["set_paid"],
+        billing: Ing.fromJson(json["billing"]),
+        shipping: Ing.fromJson(json["shipping"]),
+        lineItems: List<LineItem>.from(
+            json["line_items"].map((x) => LineItem.fromJson(x))),
+        shippingLines: List<ShippingLine>.from(
+            json["shipping_lines"].map((x) => ShippingLine.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "parent_id": parentId,
-    "status": status,
-    "discount_total": discountTotal,
-    "discount_tax": discountTax,
-    "shipping_total": shippingTotal,
-    "shipping_tax": shippingTax,
-    "cart_tax": cartTax,
-    "total": total,
-    "total_tax": totalTax,
-    "customer_id": customerId,
-    "order_key": orderKey,
-    "billing": billing.toJson(),
-    "shipping": shipping.toJson(),
-  };
+        "payment_method": paymentMethod,
+        "customer_id": customerId,
+        "id": orderId,
+        "payment_method_title": paymentMethodTitle,
+        "set_paid": setPaid,
+        "billing": billing.toJson(),
+        "shipping": shipping.toJson(),
+        "line_items": List<dynamic>.from(lineItems.map((x) => x.toJson())),
+        "shipping_lines":
+            List<dynamic>.from(shippingLines.map((x) => x.toJson())),
+      };
 }
 
 class Ing {
   Ing({
     this.firstName,
     this.lastName,
-    this.company,
     this.address1,
     this.address2,
     this.city,
@@ -83,7 +65,6 @@ class Ing {
 
   String firstName;
   String lastName;
-  String company;
   String address1;
   String address2;
   String city;
@@ -94,30 +75,76 @@ class Ing {
   String phone;
 
   factory Ing.fromJson(Map<String, dynamic> json) => Ing(
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    company: json["company"],
-    address1: json["address_1"],
-    address2: json["address_2"],
-    city: json["city"],
-    state: json["state"],
-    postcode: json["postcode"],
-    country: json["country"],
-    email: json["email"] == null ? null : json["email"],
-    phone: json["phone"] == null ? null : json["phone"],
-  );
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        address1: json["address_1"],
+        address2: json["address_2"],
+        city: json["city"],
+        state: json["state"],
+        postcode: json["postcode"],
+        country: json["country"],
+        email: json["email"] == null ? null : json["email"],
+        phone: json["phone"] == null ? null : json["phone"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "first_name": firstName,
-    "last_name": lastName,
-    "company": company,
-    "address_1": address1,
-    "address_2": address2,
-    "city": city,
-    "state": state,
-    "postcode": postcode,
-    "country": country,
-    "email": email == null ? null : email,
-    "phone": phone == null ? null : phone,
-  };
+        "first_name": firstName,
+        "last_name": lastName,
+        "address_1": address1,
+        "address_2": address2,
+        "city": city,
+        "state": state,
+        "postcode": postcode,
+        "country": country,
+        "email": email == null ? null : email,
+        "phone": phone == null ? null : phone,
+      };
+}
+
+class LineItem {
+  LineItem({
+    this.productId,
+    this.quantity,
+    this.variationId,
+  });
+
+  int productId;
+  int quantity;
+  int variationId;
+
+  factory LineItem.fromJson(Map<String, dynamic> json) => LineItem(
+        productId: json["product_id"],
+        quantity: json["quantity"],
+        variationId: json["variation_id"] == null ? null : json["variation_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "product_id": productId,
+        "quantity": quantity,
+        "variation_id": variationId == null ? null : variationId,
+      };
+}
+
+class ShippingLine {
+  ShippingLine({
+    this.methodId,
+    this.methodTitle,
+    this.total,
+  });
+
+  String methodId;
+  String methodTitle;
+  String total;
+
+  factory ShippingLine.fromJson(Map<String, dynamic> json) => ShippingLine(
+        methodId: json["method_id"],
+        methodTitle: json["method_title"],
+        total: json["total"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "method_id": methodId,
+        "method_title": methodTitle,
+        "total": total,
+      };
 }

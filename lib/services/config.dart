@@ -12,6 +12,7 @@ class WooConfig {
   static String vendorProductUrl = 'https://vievif.fr/wp-json/wcfmmp/v1/products';
   static String storeVendorList = 'https://vievif.fr/wp-json/wcfmmp/v1/store-vendors';
   static String variableProductUrl = 'variations';
+  static String orderProductUrl = 'orders';
 }
 
 class UserType {

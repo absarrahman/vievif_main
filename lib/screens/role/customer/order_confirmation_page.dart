@@ -3,6 +3,7 @@ import 'package:im_stepper/stepper.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/order/house_address_widget.dart';
+import 'package:vievif/widgets/order/payment_widget.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _IconStepperDemo extends State<TestPage> {
 
   List<Widget> _widgets = [
     AddressWidget(),
-    AddressWidget(),
+    PaymentWidget(),
     AddressWidget(),
   ];
 
