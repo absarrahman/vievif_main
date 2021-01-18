@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/utils/colors.dart';
 
+import '../common_widgets.dart';
 import '../list_card_widget.dart';
 
 class ConfirmOrderWidget extends StatelessWidget {
@@ -14,7 +15,11 @@ class ConfirmOrderWidget extends StatelessWidget {
       height: size.height,
       child: Column(
         children: [
-          Text("Your orders"),
+          Text(
+            'Total amount\n${CommonWidgets.numberFormatter(cartProvider.totalAmount.toString())}',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(
             height: 10,
           ),
