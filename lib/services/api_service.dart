@@ -171,7 +171,7 @@ class ApiService {
   }
 
   Future<bool> createOrder({OrderModel order, UserModel user}) async {
-    order.customerId = 12; //Need to change later
+    order.customerId = user.id;
 
     bool isOrderCreated = false;
 
