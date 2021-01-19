@@ -6,12 +6,12 @@ import 'package:vievif/widgets/order/confirm_order_widget.dart';
 import 'package:vievif/widgets/order/house_address_widget.dart';
 import 'package:vievif/widgets/order/payment_widget.dart';
 
-class TestPage extends StatefulWidget {
+class OrderConfirmationPage extends StatefulWidget {
   @override
   _IconStepperDemo createState() => _IconStepperDemo();
 }
 
-class _IconStepperDemo extends State<TestPage> {
+class _IconStepperDemo extends State<OrderConfirmationPage> {
   int activeStep = 0;
 
   int upperBound = 3;

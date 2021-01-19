@@ -205,7 +205,7 @@ class ApiService {
 
   Future<List<OrderModel>> getOrdersOfUser({UserModel user}) async {
 
-    List<OrderModel> data;
+    List<OrderModel> data = List();
 
     String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
     try {

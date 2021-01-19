@@ -3,6 +3,8 @@ import 'package:vievif/models/user_model.dart';
 import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/utils/colors.dart';
 
+import 'order_page.dart';
+
 class CustomerPage extends StatelessWidget {
   final UserModel user;
 
@@ -41,6 +43,6 @@ class CustomerPage extends StatelessWidget {
   }
 
   goTO(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> TestPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderPage()));
   }
 }
