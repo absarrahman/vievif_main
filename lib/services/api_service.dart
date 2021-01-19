@@ -175,12 +175,12 @@ class ApiService {
 
     bool isOrderCreated = false;
 
-    var authToken = base64.encode(
-        utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));
+    /*var authToken = base64.encode(
+        utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));*/
 
     String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${order.customerId}';
 
-    print("AUTH TOKEN IS $authToken");
+    //print("AUTH TOKEN IS $authToken");
     print("PATH IS $path");
     print('Order is ${order.toJson()}');
 
@@ -202,4 +202,9 @@ class ApiService {
     }
     return isOrderCreated;
   }
+
+  Future<List<OrderModel>> getOrdersOfUser({UserModel user}) async {
+    return null;
+  }
+
 }
