@@ -7,6 +7,8 @@ class OrderModel {
     this.paymentMethod,
     this.paymentMethodTitle,
     this.setPaid,
+    this.orderKey,
+    this.shippingTotal,
     this.billing,
     this.shipping,
     this.lineItems,
@@ -17,6 +19,8 @@ class OrderModel {
   int orderId;
   String paymentMethod;
   String paymentMethodTitle;
+  String orderKey;
+  String shippingTotal;
   bool setPaid;
   Ing billing;
   Ing shipping;
@@ -29,6 +33,8 @@ class OrderModel {
         orderId: json["id"],
         paymentMethodTitle: json["payment_method_title"],
         setPaid: json["set_paid"],
+        shippingTotal: json["shipping_total"],
+        orderKey: json["order_key"],
         billing: Ing.fromJson(json["billing"]),
         shipping: Ing.fromJson(json["shipping"]),
         lineItems: List<LineItem>.from(
@@ -61,6 +67,8 @@ class LineItem {
   int productId;
   int quantity;
   int variationId;
+  String name;
+  String total;
 
   factory LineItem.fromJson(Map<String, dynamic> json) => LineItem(
         productId: json["product_id"],
