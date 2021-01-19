@@ -170,7 +170,7 @@ class ApiService {
     return data;
   }
 
-  Future<bool> createOrder(OrderModel order) async {
+  Future<bool> createOrder({OrderModel order, UserModel user}) async {
     order.customerId = 12; //Need to change later
 
     bool isOrderCreated = false;
@@ -178,9 +178,11 @@ class ApiService {
     var authToken = base64.encode(
         utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));
 
-    String path = WooConfig.baseUrl + WooConfig.orderProductUrl;
+    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${order.customerId}';
 
     print("AUTH TOKEN IS $authToken");
+    print("PATH IS $path");
+    print('Order is ${order.toJson()}');
 
     try {
       var response = await Dio().post(
@@ -189,15 +191,14 @@ class ApiService {
         options: Options(
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.authorizationHeader: 'Basic $authToken'
           },
         ),
       );
       print(response.data);
 
       isOrderCreated = response.statusCode == 201 ? true : false;
-    } catch (e) {
-      print(e.toString());
+    } on DioError catch (e) {
+      print(e.error);
     }
     return isOrderCreated;
   }

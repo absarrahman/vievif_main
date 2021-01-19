@@ -157,4 +157,8 @@ class CommonWidgets {
         context, MaterialPageRoute(builder: (context) => widget));
   }
 
+  static showToast({String message, BuildContext context,}) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
 }

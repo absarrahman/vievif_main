@@ -154,7 +154,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       color: kYellowish,
                       onPressed: () {
                         if (selected == null) {
-                          showToast(message:"Please select items properly",context: context);
+                          _showToast(message:"Please select items properly",context: context);
                         } else {
                           double price = amount * double.parse(
                               selected.price);
@@ -169,7 +169,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               price: price,
                             );
                             print("WITH SELECTED");
-                            showToast(message:"Successfully added",context: context,widget: CartPage());
+                            _showToast(message:"Successfully added",context: context,widget: CartPage());
                           } else if (!(isAttribute1) && (amount > 0)) {
                             cartProvider.addProduct(
                               product: widget.product,
@@ -179,9 +179,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               price: price,
                             );
                             print("WITHOUT SELECTED");
-                            showToast(message:"Successfully added",context: context,widget: CartPage());
+                            _showToast(message:"Successfully added",context: context,widget: CartPage());
                           } else {
-                            showToast(message:"Amount not selected", context: context);
+                            _showToast(message:"Amount not selected", context: context);
                           }
                         }
                       },
@@ -229,7 +229,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     );
   }
 
-  showToast({String message, BuildContext context, Widget widget, String widgetName}) {
+  _showToast({String message, BuildContext context, Widget widget,}) {
     //Ajouté au panier avec succès
     if (widget == null) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
