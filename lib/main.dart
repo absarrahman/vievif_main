@@ -7,9 +7,9 @@ import 'package:vievif/provider/user_provider.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/screens/splash_screen.dart';
 
-import 'screens/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
