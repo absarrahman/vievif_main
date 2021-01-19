@@ -9,6 +9,8 @@ class OrderModel {
     this.setPaid,
     this.orderKey,
     this.status,
+    this.total,
+    this.totalTax,
     this.shippingTotal,
     this.billing,
     this.shipping,
@@ -22,7 +24,9 @@ class OrderModel {
   String paymentMethodTitle;
   String orderKey;
   String status;
+  String total;
   String shippingTotal;
+  String totalTax;
   bool setPaid;
   Ing billing;
   Ing shipping;
@@ -38,6 +42,8 @@ class OrderModel {
         shippingTotal: json["shipping_total"],
         orderKey: json["order_key"],
         status: json["status"],
+        total: json["total"],
+        totalTax: json["total_tax"],
         billing: Ing.fromJson(json["billing"]),
         shipping: Ing.fromJson(json["shipping"]),
         lineItems: List<LineItem>.from(

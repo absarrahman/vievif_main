@@ -4,6 +4,7 @@ import 'package:vievif/models/order_model.dart';
 import 'package:vievif/provider/user_provider.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/widgets/common_widgets.dart';
+import 'package:vievif/widgets/order/order_list_card.dart';
 
 class OrderPage extends StatelessWidget {
   @override
@@ -17,7 +18,8 @@ class OrderPage extends StatelessWidget {
           if(snapshot.hasData) {
             //TODO show list of orders
             return ListView.builder(itemBuilder: (context, index) {
-              return Text('${snapshot.data[index].orderId} ${snapshot.data[index].status} ');
+              var order = snapshot.data[index];
+              return OrderListCard(order: order,);
             },
             itemCount: snapshot.data.length,);
           } else if (snapshot.connectionState == ConnectionState.waiting){
