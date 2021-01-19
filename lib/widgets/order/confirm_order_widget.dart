@@ -60,6 +60,7 @@ class ConfirmOrderWidget extends StatelessWidget {
             child: RaisedButton(
               color: kRedColor,
               onPressed: () {
+                //TODO NEED to navigate fail if condition not fulfilled
                 if (paymentProvider.isCardPayment){
                   CommonWidgets.showToast(context: context,message: 'Payment is done');
                   OrderModel order = OrderModel(
