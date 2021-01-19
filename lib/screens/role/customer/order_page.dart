@@ -8,7 +8,13 @@ class OrderPage extends StatelessWidget {
     return Scaffold(
       appBar: CommonWidgets.appbar(),
       body: FutureBuilder(
-        builder: (context,AsyncSnapshot<OrderModel>snapshot){
+        builder: (context,AsyncSnapshot<List<OrderModel>>snapshot){
+          if(snapshot.hasData) {
+            //TODO show list of orders
+            return Container();
+          } else if (snapshot.connectionState == ConnectionState.waiting){
+            return CommonWidgets.loading();
+          }
           return Container();
         },
       ),
