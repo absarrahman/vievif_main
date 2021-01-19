@@ -26,13 +26,13 @@ class _NavigationPageState extends State<NavigationPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'Accueil'),
+              icon: Icon(Icons.home_outlined), /*label: 'Accueil'*/),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag_outlined), label: 'Tous les produits'),
+              icon: Icon(Icons.shopping_bag_outlined), /*label: 'Tous les produits'*/),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_outlined), label: 'Envies'),
+              icon: Icon(Icons.favorite_border_outlined), /*label: 'Envies'*/),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline), label: 'Mon compte'),
+              icon: Icon(Icons.person_outline), /*label: 'Mon compte'*/),
         ],
         currentIndex: tabIndex,
         onTap: (index) {

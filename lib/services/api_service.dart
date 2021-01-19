@@ -204,7 +204,28 @@ class ApiService {
   }
 
   Future<List<OrderModel>> getOrdersOfUser({UserModel user}) async {
-    return null;
+
+    List<OrderModel> data;
+
+    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
+    try {
+      var response = await Dio().get(path,
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+
+      if (response.statusCode == 200) {
+        var body = response.data as List; //need list
+        for (int i = 0; i < body.length; i++) {
+          data.add(OrderModel.fromJson(body[i]));
+        }
+      }
+
+      print("USER'S order is ${response.data}");
+
+    } catch (e) {
+      print(e.toString());
+    }
+    return data;
   }
 
 }
