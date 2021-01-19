@@ -63,7 +63,7 @@ class ConfirmOrderWidget extends StatelessWidget {
                 if (paymentProvider.isCardPayment){
                   CommonWidgets.showToast(context: context,message: 'Payment is done');
                   OrderModel order = OrderModel(
-                    setPaid: true,
+                    setPaid: false,
                     paymentMethod: 'cod',
                     paymentMethodTitle: 'Cash on delivery',
                     lineItems: List(),
