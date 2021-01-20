@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
+import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/navigation_page.dart';
 import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/utils/colors.dart';
+import 'package:vievif/widgets/common_widgets.dart';
 
 import 'order_page.dart';
 
@@ -30,11 +34,15 @@ class CustomerPage extends StatelessWidget {
             ),
             expandedHeight: 200,
           ),
+          SliverPadding(padding: EdgeInsets.all(8)),
           SliverList(delegate: SliverChildListDelegate(
             [
-              Container(
-                  color: kYellowish,
-                  child: FlatButton(onPressed: () => goTO(context), child: Text("OK"))),
+              CommonWidgets.clickButton(
+                context: context,
+                iconData: Icons.shopping_bag,
+                widget: OrderPage(),
+                title: 'Commandes',
+              ),
             ]
           ))
         ],

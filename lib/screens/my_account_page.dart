@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/role/customer/customer_screen.dart';
 import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/screens/role/customer/order_page.dart';
 import 'package:vievif/screens/terms_condition_page.dart';
@@ -76,7 +77,7 @@ class MyAccountPage extends StatelessWidget {
                 CommonWidgets.clickButton(
                     iconData: Icons.security,
                     context: context,
-                    widget: OrderPage(),
+                    widget: CustomerPage(userProvider.user),
                     title: 'Termes et Conditions \nde Vievif'),
               ],
             ),
