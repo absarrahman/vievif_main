@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/models/user_model.dart';
+import 'package:vievif/provider/create_product_provider.dart';
 import 'package:vievif/screens/order/order_page.dart';
+import 'package:vievif/screens/role/vendor/create_product_page.dart';
 import 'package:vievif/screens/role/vendor/vendor_product_page.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
@@ -38,6 +40,12 @@ class VendorPage extends StatelessWidget {
                   context: context,
                   iconData: Icons.shopping_cart,
                   widget: VendorProductPage(user),
+                  title: 'Des produits',
+                ),
+                CommonWidgets.clickButton(
+                  context: context,
+                  iconData: Icons.add,
+                  widget: CreateProductPage(user),
                   title: 'Des produits',
                 ),
                 //logOutButton(title: 'Se deconnecter',context: context,iconData: Icons.logout,widget: NavigationPage(),),

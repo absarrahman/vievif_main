@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -9,6 +8,7 @@ import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/models/variable_model.dart';
 import 'package:vievif/models/vendor_product_model.dart';
+import 'package:vievif/provider/create_product_provider.dart';
 import 'package:vievif/services/config.dart';
 
 class ApiService {
@@ -291,7 +291,8 @@ class ApiService {
     return false;
   }
 
-  Future<List<VendorProductModel>> getVendorProducts({int id, UserModel user}) async {
+  Future<List<VendorProductModel>> getVendorProducts(
+      {int id, UserModel user}) async {
     List<VendorProductModel> data = List<VendorProductModel>();
     String path = WooConfig.storeVendorList +
         '/$id/products?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
@@ -299,10 +300,10 @@ class ApiService {
     print(path);
     try {
       var response = await Dio().get(path,
-          options: Options(
-              headers: {HttpHeaders.contentTypeHeader: 'application/json',
-                'Authorization': 'Bearer ${user.token}'
-              }));
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'Authorization': 'Bearer ${user.token}'
+          }));
 
       print('V data ${response.data}');
       if (response.statusCode == 200) {
@@ -316,5 +317,39 @@ class ApiService {
     }
     print('Data length ${data.length}');
     return data;
+  }
+
+  Future<bool> addVendorProducts(
+      {int id,
+      UserModel user,
+      CreateProductProvider createProductProvider}) async {
+    String path = WooConfig.storeVendorList +
+        '/$id/products?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+
+    print(path);
+    try {
+      var response = await Dio().post(path,
+          data: {
+        'name': createProductProvider.name,
+            'type': createProductProvider.type,
+            'regular_price': createProductProvider.regularPrice,
+            'description': createProductProvider.description,
+            'short_description': createProductProvider.shortDescription,
+            'categories': createProductProvider.categories,
+            'images': createProductProvider.images,
+          },
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'Authorization': 'Bearer ${user.token}'
+          }));
+
+      print('V data ${response.data}');
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+    return false;
   }
 }

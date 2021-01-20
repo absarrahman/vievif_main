@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/role/vendor/create_product_page.dart';
+import 'package:vievif/screens/role/vendor/vendor_product_page.dart';
+import 'package:vievif/screens/role/vendor/vendor_screen.dart';
 import 'package:vievif/screens/success_page.dart';
 import 'package:vievif/screens/terms_condition_page.dart';
 import 'package:vievif/services/user_route.dart';
@@ -74,11 +77,11 @@ class MyAccountPage extends StatelessWidget {
                     context: context,
                     widget: TermsAndConditionPage(),
                     title: 'Termes et Conditions \nde Vievif'),
-                CommonWidgets.clickButton(
+                /*CommonWidgets.clickButton(
                     iconData: Icons.security,
                     context: context,
-                    widget: SuccessPage(),
-                    title: 'Termes et Conditions \nde Vievif'),
+                    widget: CreateProductPage(),
+                    title: 'Termes et Conditions \nde Vievif'),*/
               ],
             ),
           ),
