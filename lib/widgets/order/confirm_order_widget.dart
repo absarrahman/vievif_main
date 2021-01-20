@@ -5,6 +5,8 @@ import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/cart_provider.dart';
 import 'package:vievif/provider/payment_provider.dart';
 import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/failure_page.dart';
+import 'package:vievif/screens/success_page.dart';
 import 'package:vievif/utils/colors.dart';
 
 import '../common_widgets.dart';
@@ -75,6 +77,10 @@ class ConfirmOrderWidget extends StatelessWidget {
                   cartProvider.setOrder(order);
                   cartProvider.createOrder();
                   //navigate to success page
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessPage()));
+                } else {
+                  //FAILED
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FailurePage()));
                 }
               },
               child: Text('Commander',style: TextStyle(
