@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
-import 'package:vievif/provider/user_provider.dart';
-import 'package:vievif/screens/navigation_page.dart';
-import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
@@ -43,7 +39,7 @@ class CustomerPage extends StatelessWidget {
                 widget: OrderPage(),
                 title: 'Commandes',
               ),
-              logOutButton(title: 'Se deconnecter',context: context,iconData: Icons.logout,widget: NavigationPage(),),
+              //logOutButton(title: 'Se deconnecter',context: context,iconData: Icons.logout,widget: NavigationPage(),),
             ]
           ))
         ],

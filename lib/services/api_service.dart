@@ -16,10 +16,12 @@ class ApiService {
 
     String apiPath = WooConfig.baseUrl +
         WooConfig.categoriesUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+            .consumerSecret}';
     String apiPathToProd = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+            .consumerSecret}';
     print('API PATH PRODUCTS $apiPathToProd');
     try {
       var response = await Dio().get(apiPath,
@@ -88,7 +90,8 @@ class ApiService {
 
     String apiPath = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}$path';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+            .consumerSecret}$path';
 
     try {
       var response = await Dio().get(apiPath,
@@ -127,10 +130,12 @@ class ApiService {
       print('ID is $token');
       // https://example.com/wp-json/wp/v2/users/<id>
       print(
-          'ID PATH ${WooConfig.userDetailsUrl + '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
+          'ID PATH ${WooConfig.userDetailsUrl + '$id?consumer_key=${WooConfig
+              .consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
       response = await Dio().get(
           WooConfig.userDetailsUrl +
-              '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
+              '$id?consumer_key=${WooConfig
+                  .consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
           options: Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
 
@@ -149,7 +154,8 @@ class ApiService {
   Future<List<VariableModel>> getVariableProductList(String productID) async {
     String path = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '$productID/${WooConfig.variableProductUrl}?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+        '$productID/${WooConfig.variableProductUrl}?consumer_key=${WooConfig
+            .consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
 
     print('VAR API PATH $path');
     List<VariableModel> data = List<VariableModel>();
@@ -172,13 +178,14 @@ class ApiService {
   }
 
   Future<bool> createOrder({OrderModel order, UserModel user}) async {
-
     bool isOrderCreated = false;
 
     /*var authToken = base64.encode(
         utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));*/
 
-    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${order.customerId}';
+    String path = WooConfig.baseUrl + WooConfig.orderProductUrl +
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+            .consumerSecret}&customer_id=${order.customerId}';
 
     //print("AUTH TOKEN IS $authToken");
     print("PATH IS $path");
@@ -204,10 +211,18 @@ class ApiService {
   }
 
   Future<List<OrderModel>> getOrdersOfUser({UserModel user}) async {
-
     List<OrderModel> data = List();
-
-    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
+    String path;
+    if (user == null) {
+      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
+          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+              .consumerSecret}';
+    } else {
+      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
+          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
+              .consumerSecret}&customer_id=${user.id}';
+    }
+    print("Path is $path");
     try {
       var response = await Dio().get(path,
           options: Options(
@@ -221,7 +236,6 @@ class ApiService {
       }
 
       print("USER'S order is ${response.data}");
-
     } catch (e) {
       print(e.toString());
     }
@@ -230,7 +244,19 @@ class ApiService {
 
   Future<OrderModel> getSpecificOrder({UserModel user, int id}) async {
     OrderModel order;
-    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
+    String path;
+
+    if (user == null) {
+      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
+          '/$id?consumer_key=${WooConfig
+              .consumerKey}&consumer_secret=${WooConfig
+              .consumerSecret}';
+    } else {
+      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
+          '/$id?consumer_key=${WooConfig
+              .consumerKey}&consumer_secret=${WooConfig
+              .consumerSecret}&customer_id=${user.id}';
+    }
 
     try {
       var response = await Dio().get(path,
@@ -246,7 +272,6 @@ class ApiService {
     }
 
     return order;
-
   }
 
 }

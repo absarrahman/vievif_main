@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vievif/models/order_model.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/services/api_service.dart';
+import 'package:vievif/services/config.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -15,12 +16,24 @@ class OrderDetailsPage extends StatefulWidget {
 }
 
 class _OrderDetailsPageState extends State<OrderDetailsPage> {
+  List<String> dropdownList = [
+    OrderType.completed,
+    OrderType.failed,
+    OrderType.onHold,
+    OrderType.completed,
+    OrderType.processing,
+    OrderType.pending,
+    OrderType.refunded,
+  ];
+
+  String selected;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidgets.appbar(),
       body: FutureBuilder(
-        future: ApiService().getSpecificOrder(user: widget.user, id: widget.id),
+        future: widget.user.role == UserType.customer ? ApiService().getSpecificOrder(user: widget.user, id: widget.id) : ApiService().getSpecificOrder(id: widget.id),
         builder: (context, AsyncSnapshot<OrderModel> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CommonWidgets.loading();
@@ -172,10 +185,53 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   ],
                 ),
               ),
+              changeOrderType(),
             ],
           ),
         ),
       ),
     );
   }
+
+  Widget changeOrderType() {
+    return Container(
+      child: Column(
+        children: [
+          DropdownButton(
+            items: dropdownList
+                .map((String e) => DropdownMenuItem<String>(
+                      child: Text(e),
+                      value: e,
+                    ))
+                .toList(),
+            onChanged: (value) {
+              setState(() {
+                selected = value;
+              });
+            },
+          ),
+          FlatButton(
+            onPressed: () {
+
+            },
+            child: Text('Confirmer le type de commande'),
+            shape: StadiumBorder(),
+          ),
+        ],
+      ),
+    );
+  }
+
+/*variable.map((VariableModel value) {
+  return DropdownMenuItem(
+  value: value,
+  child: Text(
+  '${isAttribute1?value.attributes[0].name+ ' ' +value.attributes[0]
+      .option:''} \n${isAttribute2
+  ? value.attributes[1].name.toString() + ' ' +
+  value.attributes[1].option.toString()
+      : ''}'),
+  );
+  }).toList()*/
+
 }
