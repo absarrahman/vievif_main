@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/provider/user_provider.dart';
-import 'package:vievif/screens/failure_page.dart';
-import 'package:vievif/screens/role/customer/customer_screen.dart';
-import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/order/order_page.dart';
 import 'package:vievif/screens/success_page.dart';
 import 'package:vievif/screens/terms_condition_page.dart';
 import 'package:vievif/services/user_route.dart';
@@ -45,13 +41,16 @@ class MyAccountPage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                userProvider.user == null
-                    ? CommonWidgets.clickButton(
+                userProvider.isLoggedIn
+                    ? _goToAccount(
+                        iconData: Icons.person,
+                        user: userProvider.user,
+                        context: context)
+                    : CommonWidgets.clickButton(
                         iconData: Icons.person,
                         context: context,
                         widget: LoginPage(),
-                        title: 'Login')
-                    : _goToAccount(iconData: Icons.person,user: userProvider.user,context: context),
+                        title: 'Login'),
                 SizedBox(
                   height: 10,
                 ),
@@ -75,7 +74,6 @@ class MyAccountPage extends StatelessWidget {
                     context: context,
                     widget: TermsAndConditionPage(),
                     title: 'Termes et Conditions \nde Vievif'),
-
                 CommonWidgets.clickButton(
                     iconData: Icons.security,
                     context: context,
@@ -89,10 +87,11 @@ class MyAccountPage extends StatelessWidget {
     );
   }
 
-  Widget _goToAccount({IconData iconData,BuildContext context, UserModel user}) {
+  Widget _goToAccount(
+      {IconData iconData, BuildContext context, UserModel user}) {
     return InkWell(
       onTap: () => UserRoute.navigateUserScreen(
-          user: user, context: context,isFromLoginPage: false),
+          user: user, context: context, isFromLoginPage: false),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -133,5 +132,4 @@ class MyAccountPage extends StatelessWidget {
       ),
     );
   }
-
 }

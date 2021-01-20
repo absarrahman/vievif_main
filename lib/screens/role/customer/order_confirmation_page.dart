@@ -62,7 +62,9 @@ class _IconStepperDemo extends State<OrderConfirmationPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   previousButton(),
-                  nextButton(),
+                  Visibility(
+                    visible: activeStep< upperBound,
+                      child: nextButton()),
                 ],
               ),
             ),
