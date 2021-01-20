@@ -71,6 +71,7 @@ class LineItem {
     this.productId,
     this.quantity,
     this.name,
+    this.total,
     this.variationId,
   });
 
@@ -84,6 +85,7 @@ class LineItem {
         productId: json["product_id"],
         quantity: json["quantity"],
         name: json["name"],
+        total: json["total"],
         variationId: json["variation_id"] == null ? null : json["variation_id"],
       );
 

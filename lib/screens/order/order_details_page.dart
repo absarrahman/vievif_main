@@ -8,7 +8,6 @@ class OrderDetailsPage extends StatefulWidget {
   final UserModel user;
   final int id;
 
-
   OrderDetailsPage({this.user, this.id});
 
   @override
@@ -36,20 +35,146 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   }
 
   Widget _layout(OrderModel order) {
-
     return Container(
       child: Column(
         children: [
-          Text('Your items '),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Numéro de commande \n${order.orderId}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Statut de la commande \n${order.status}',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Liste des projets',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Flexible(
             child: ListView.builder(
-              itemCount: order.lineItems.length,
-                itemBuilder: (context,index) {
-              var item = order.lineItems[index];
-              return Text(item.name.toString());
-            }),
+                itemCount: order.lineItems.length,
+                itemBuilder: (context, index) {
+                  var item = order.lineItems[index];
+                  return cardItem(item);
+                }),
           )
         ],
+      ),
+    );
+  }
+
+  Widget cardItem(LineItem item) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item.name,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'ID produit',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      '${item.productId}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Quantité',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      '${item.quantity}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Montant total',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      '${CommonWidgets.numberFormatter(item.total)}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
