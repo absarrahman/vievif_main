@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/models/order_model.dart';
 import 'package:vievif/models/user_model.dart';
+import 'package:vievif/screens/failure_page.dart';
+import 'package:vievif/screens/success_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/services/config.dart';
+import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -20,7 +23,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     OrderType.completed,
     OrderType.failed,
     OrderType.onHold,
-    OrderType.completed,
     OrderType.processing,
     OrderType.pending,
     OrderType.refunded,
@@ -76,6 +78,12 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             textAlign: TextAlign.center,
           ),
           SizedBox(
+            height: 10,
+          ),
+          Visibility(
+            visible: widget.user.role != UserType.customer,
+              child: changeOrderType()),
+          SizedBox(
             height: 20,
           ),
           Flexible(
@@ -85,7 +93,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   var item = order.lineItems[index];
                   return cardItem(item);
                 }),
-          )
+          ),
         ],
       ),
     );
@@ -185,7 +193,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   ],
                 ),
               ),
-              changeOrderType(),
             ],
           ),
         ),
@@ -197,7 +204,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     return Container(
       child: Column(
         children: [
-          DropdownButton(
+          DropdownButton<String>(
+            value: selected,
+            hint: Text('Choisir une option'),
             items: dropdownList
                 .map((String e) => DropdownMenuItem<String>(
                       child: Text(e),
@@ -211,8 +220,14 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             },
           ),
           FlatButton(
-            onPressed: () {
-
+            color: kYellowish,
+            onPressed: () async {
+              bool res = await ApiService().updateSpecificOrder(id: widget.id,status: selected);
+              if(res) {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessPage()));
+              } else {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FailurePage()));
+              }
             },
             child: Text('Confirmer le type de commande'),
             shape: StadiumBorder(),

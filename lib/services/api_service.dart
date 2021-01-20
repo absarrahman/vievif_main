@@ -16,12 +16,10 @@ class ApiService {
 
     String apiPath = WooConfig.baseUrl +
         WooConfig.categoriesUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-            .consumerSecret}';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
     String apiPathToProd = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-            .consumerSecret}';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
     print('API PATH PRODUCTS $apiPathToProd');
     try {
       var response = await Dio().get(apiPath,
@@ -90,8 +88,7 @@ class ApiService {
 
     String apiPath = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-            .consumerSecret}$path';
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}$path';
 
     try {
       var response = await Dio().get(apiPath,
@@ -130,12 +127,10 @@ class ApiService {
       print('ID is $token');
       // https://example.com/wp-json/wp/v2/users/<id>
       print(
-          'ID PATH ${WooConfig.userDetailsUrl + '$id?consumer_key=${WooConfig
-              .consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
+          'ID PATH ${WooConfig.userDetailsUrl + '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}'}');
       response = await Dio().get(
           WooConfig.userDetailsUrl +
-              '$id?consumer_key=${WooConfig
-                  .consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
+              '$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}',
           options: Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
 
@@ -154,8 +149,7 @@ class ApiService {
   Future<List<VariableModel>> getVariableProductList(String productID) async {
     String path = WooConfig.baseUrl +
         WooConfig.productsUrl +
-        '$productID/${WooConfig.variableProductUrl}?consumer_key=${WooConfig
-            .consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+        '$productID/${WooConfig.variableProductUrl}?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
 
     print('VAR API PATH $path');
     List<VariableModel> data = List<VariableModel>();
@@ -183,9 +177,9 @@ class ApiService {
     /*var authToken = base64.encode(
         utf8.encode(WooConfig.consumerKey + ':' + WooConfig.consumerSecret));*/
 
-    String path = WooConfig.baseUrl + WooConfig.orderProductUrl +
-        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-            .consumerSecret}&customer_id=${order.customerId}';
+    String path = WooConfig.baseUrl +
+        WooConfig.orderProductUrl +
+        '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${order.customerId}';
 
     //print("AUTH TOKEN IS $authToken");
     print("PATH IS $path");
@@ -214,13 +208,13 @@ class ApiService {
     List<OrderModel> data = List();
     String path;
     if (user == null) {
-      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
-          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-              .consumerSecret}';
+      path = WooConfig.baseUrl +
+          WooConfig.orderProductUrl +
+          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
     } else {
-      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
-          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig
-              .consumerSecret}&customer_id=${user.id}';
+      path = WooConfig.baseUrl +
+          WooConfig.orderProductUrl +
+          '?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
     }
     print("Path is $path");
     try {
@@ -247,15 +241,13 @@ class ApiService {
     String path;
 
     if (user == null) {
-      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
-          '/$id?consumer_key=${WooConfig
-              .consumerKey}&consumer_secret=${WooConfig
-              .consumerSecret}';
+      path = WooConfig.baseUrl +
+          WooConfig.orderProductUrl +
+          '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
     } else {
-      path = WooConfig.baseUrl + WooConfig.orderProductUrl +
-          '/$id?consumer_key=${WooConfig
-              .consumerKey}&consumer_secret=${WooConfig
-              .consumerSecret}&customer_id=${user.id}';
+      path = WooConfig.baseUrl +
+          WooConfig.orderProductUrl +
+          '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
     }
 
     try {
@@ -274,4 +266,28 @@ class ApiService {
     return order;
   }
 
+  Future<bool> updateSpecificOrder({int id, String status}) async {
+    String path;
+
+    path = WooConfig.baseUrl +
+        WooConfig.orderProductUrl +
+        '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+
+
+    try {
+      var response = await Dio().put(path,
+          data: {
+            "status": status,
+          },
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+    return false;
+  }
 }
