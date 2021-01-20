@@ -63,7 +63,7 @@ class _IconStepperDemo extends State<OrderConfirmationPage> {
                 children: [
                   previousButton(),
                   Visibility(
-                    visible: activeStep< upperBound,
+                    visible: activeStep < upperBound,
                       child: nextButton()),
                 ],
               ),

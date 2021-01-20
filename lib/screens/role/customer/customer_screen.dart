@@ -50,7 +50,4 @@ class CustomerPage extends StatelessWidget {
     );
   }
 
-  goTO(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderPage()));
-  }
 }
