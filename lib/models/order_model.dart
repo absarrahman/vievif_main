@@ -27,7 +27,7 @@ class OrderModel {
   String total;
   String shippingTotal;
   String totalTax;
-  bool setPaid;
+  bool setPaid = false;
   Ing billing;
   Ing shipping;
   List<LineItem> lineItems;
@@ -70,6 +70,7 @@ class LineItem {
   LineItem({
     this.productId,
     this.quantity,
+    this.name,
     this.variationId,
   });
 
@@ -82,6 +83,7 @@ class LineItem {
   factory LineItem.fromJson(Map<String, dynamic> json) => LineItem(
         productId: json["product_id"],
         quantity: json["quantity"],
+        name: json["name"],
         variationId: json["variation_id"] == null ? null : json["variation_id"],
       );
 

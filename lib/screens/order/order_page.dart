@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/order_model.dart';
 import 'package:vievif/provider/user_provider.dart';
+import 'package:vievif/screens/order/order_details_page.dart';
 import 'package:vievif/services/api_service.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/order/order_list_card.dart';
@@ -19,7 +20,11 @@ class OrderPage extends StatelessWidget {
             //TODO show list of orders
             return ListView.builder(itemBuilder: (context, index) {
               var order = snapshot.data[index];
-              return OrderListCard(order: order,);
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderDetailsPage(id: order.orderId,user: userProvider.user,)));
+                },
+                  child: OrderListCard(order: order,),);
             },
             itemCount: snapshot.data.length,);
           } else if (snapshot.connectionState == ConnectionState.waiting){
