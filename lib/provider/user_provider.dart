@@ -4,7 +4,7 @@ import 'package:vievif/models/user_model.dart';
 class UserProvider with ChangeNotifier {
   String _email = '';
   String _password = '';
-  bool _isLoggedIn;
+  bool _isLoggedIn = false;
   UserModel _user;
 
   String get email => _email;

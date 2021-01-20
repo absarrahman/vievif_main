@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/cart_provider.dart';
+import 'package:vievif/provider/user_provider.dart';
 import 'package:vievif/screens/product_details_page.dart';
+import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/list_card_widget.dart';
+
+import 'auth/login.dart';
 
 class CartPage extends StatelessWidget {
   @override
@@ -20,7 +24,7 @@ class CartPage extends StatelessWidget {
               children: [
                 Container(
                   width: size.width,
-                  child: buyNow(cartProvider.totalAmount),
+                  child: buyNow(cartProvider.totalAmount, context),
                   color: kYellowish,
                 ),
                 Expanded(
@@ -56,7 +60,7 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget buyNow(double totalAmount) {
+  Widget buyNow(double totalAmount,BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -74,7 +78,14 @@ class CartPage extends StatelessWidget {
           Flexible(
             child: RaisedButton(
               color: kRedColor,
-              onPressed: () => {},
+              onPressed: () {
+                var userProvider = Provider.of<UserProvider>(context, listen: false);
+                if (userProvider.isLoggedIn) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderConfirmationPage()));
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                }
+              },
               child: Text('Valider la commande',style: TextStyle(
                 color: kSurfaceWhite,
                 fontSize: 15,

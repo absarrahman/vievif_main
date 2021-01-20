@@ -62,9 +62,8 @@ class ConfirmOrderWidget extends StatelessWidget {
             child: RaisedButton(
               color: kRedColor,
               onPressed: () {
-                //TODO NEED to navigate fail if condition not fulfilled
-                if (paymentProvider.isCardPayment){
-                  CommonWidgets.showToast(context: context,message: 'Payment is done');
+                if (!(paymentProvider.isCardPayment)){
+                  debugPrint('Payment card ${paymentProvider.isCardPayment}');
                   OrderModel order = OrderModel(
                     setPaid: false,
                     paymentMethod: 'cod',
@@ -78,7 +77,7 @@ class ConfirmOrderWidget extends StatelessWidget {
                   cartProvider.createOrder();
                   //navigate to success page
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessPage()));
-                } else {
+                } else if(paymentProvider.isCardPayment) {
                   //FAILED
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FailurePage()));
                 }
