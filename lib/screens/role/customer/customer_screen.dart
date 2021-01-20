@@ -7,7 +7,7 @@ import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
 import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 
-import 'order_page.dart';
+import '../../order/order_page.dart';
 
 class CustomerPage extends StatelessWidget {
   final UserModel user;

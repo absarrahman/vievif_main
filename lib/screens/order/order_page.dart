@@ -25,7 +25,11 @@ class OrderPage extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.waiting){
             return CommonWidgets.loading();
           }
-          return Container();
+          return Center(
+            child: Container(
+              child: Text('Aucune commande'),
+            ),
+          );
         },
       ),
     );

@@ -5,7 +5,7 @@ import 'package:vievif/provider/user_provider.dart';
 import 'package:vievif/screens/failure_page.dart';
 import 'package:vievif/screens/role/customer/customer_screen.dart';
 import 'package:vievif/screens/role/customer/order_confirmation_page.dart';
-import 'package:vievif/screens/role/customer/order_page.dart';
+import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/order/order_page.dart';
 import 'package:vievif/screens/success_page.dart';
 import 'package:vievif/screens/terms_condition_page.dart';
 import 'package:vievif/services/user_route.dart';
