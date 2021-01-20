@@ -8,6 +8,7 @@ import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/models/user_model.dart';
 import 'package:vievif/models/variable_model.dart';
+import 'package:vievif/models/vendor_product_model.dart';
 import 'package:vievif/services/config.dart';
 
 class ApiService {
@@ -273,7 +274,6 @@ class ApiService {
         WooConfig.orderProductUrl +
         '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
 
-
     try {
       var response = await Dio().put(path,
           data: {
@@ -289,5 +289,32 @@ class ApiService {
       debugPrint(e.message);
     }
     return false;
+  }
+
+  Future<List<VendorProductModel>> getVendorProducts({int id, UserModel user}) async {
+    List<VendorProductModel> data = List<VendorProductModel>();
+    String path = WooConfig.storeVendorList +
+        '/$id/products?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}';
+
+    print(path);
+    try {
+      var response = await Dio().get(path,
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json',
+                'Authorization': 'Bearer ${user.token}'
+              }));
+
+      print('V data ${response.data}');
+      if (response.statusCode == 200) {
+        var body = response.data as List; //need list
+        for (int i = 0; i < body.length; i++) {
+          data.add(VendorProductModel.fromJson(body[i]));
+        }
+      }
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+    print('Data length ${data.length}');
+    return data;
   }
 }
