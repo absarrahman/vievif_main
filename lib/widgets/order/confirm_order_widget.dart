@@ -75,6 +75,7 @@ class ConfirmOrderWidget extends StatelessWidget {
                   );
                   cartProvider.setOrder(order);
                   cartProvider.createOrder();
+                  cartProvider.emptyCart();
                   //navigate to success page
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessPage()));
                 } else if(paymentProvider.isCardPayment) {
