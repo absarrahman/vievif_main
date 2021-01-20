@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/models/order_model.dart';
+import 'package:vievif/services/config.dart';
+import 'package:vievif/utils/colors.dart';
 
 import '../common_widgets.dart';
 
@@ -10,17 +12,19 @@ class OrderListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
 
-    return Material(
-      elevation: 10,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
         child: Container(
           width: size.width - 130,
           decoration: BoxDecoration(
+            color: kYellowish,
             borderRadius: BorderRadius.all(
               Radius.circular(12),
             ),
@@ -29,12 +33,65 @@ class OrderListCard extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(20,8,20,2),
                 child: Container(
-                  height: size.width / 2,
+                  height: size.width / 3,
                   width: size.width - 30,
-                  child: Text(
-                    order.status,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'État',
+                            ),
+                            Text(
+                              _statusType(order.status),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Order ID',
+                            ),
+                            Text(
+                              '${order.orderId}',
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Sous-total des articles',
+                            ),
+                            Text(CommonWidgets.numberFormatter((double.parse(order.total) - double.parse(order.shippingTotal)).toString())),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Expédition',
+                            ),
+                            Text(CommonWidgets.numberFormatter(order.shippingTotal)),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -48,50 +105,12 @@ class OrderListCard extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                order.orderId.toString(),
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  CommonWidgets.numberFormatter(
-                                      order.total.toString()),
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Quantité ${order.shipping.phone}',style: TextStyle(
-                                fontSize: 15
-                            ),),
-                            Text('VAT 20%',style: TextStyle(
-                                fontSize: 15
-                            ),),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
                         Center(
-                          child: Text('Total ${CommonWidgets.numberFormatter(order.total)}',style: TextStyle(
-                              fontSize: 15
+                          child: Text(
+                            'Total de la commande: ${CommonWidgets.numberFormatter(order.total)}',
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,
                           ),
-                            textAlign: TextAlign.center,),
                         ),
                       ],
                     ),
@@ -103,5 +122,28 @@ class OrderListCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _statusType(String value) {
+    switch (value) {
+      case OrderType.cancelled:
+        return 'Annulée';
+        break;
+      case OrderType.completed:
+        return 'Terminee';
+        break;
+      case OrderType.pending:
+        return 'Attente paiement';
+        break;
+      case OrderType.processing:
+        return 'En cours';
+        break;
+      case OrderType.failed:
+        return 'Echouée';
+        break;
+      default:
+        return '';
+        break;
+    }
   }
 }

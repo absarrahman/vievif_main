@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vievif/models/order_model.dart';
 import 'package:vievif/models/product_category.dart';
 import 'package:vievif/models/product_model.dart';
@@ -226,6 +227,27 @@ class ApiService {
       print(e.toString());
     }
     return data;
+  }
+
+  Future<OrderModel> getSpecificOrder({UserModel user, int id}) async {
+    OrderModel order;
+    String path = WooConfig.baseUrl + WooConfig.orderProductUrl + '/$id?consumer_key=${WooConfig.consumerKey}&consumer_secret=${WooConfig.consumerSecret}&customer_id=${user.id}';
+
+    try {
+      var response = await Dio().get(path,
+          options: Options(
+              headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
+
+      if (response.statusCode == 200) {
+        var body = response.data;
+        order = OrderModel.fromJson(body);
+      }
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+
+    return order;
+
   }
 
 }

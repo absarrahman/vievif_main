@@ -21,3 +21,14 @@ class UserType {
   static const String vendor = 'wcfm_vendor';
   static const String deliveryMan = 'wcfm_delivery_boy';
 }
+
+class OrderType {
+  static const String pending = 'pending';
+  static const String completed = 'completed';
+  static const String processing = 'processing';
+  static const String onHold = 'on-hold';
+  static const String cancelled = 'cancelled';
+  static const String refunded = 'refunded';
+  static const String failed = 'failed';
+
+}
