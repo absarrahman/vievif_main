@@ -41,16 +41,16 @@ class MyAccountPage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                userProvider.isLoggedIn
-                    ? _goToAccount(
-                        iconData: Icons.person,
-                        user: userProvider.user,
-                        context: context)
-                    : CommonWidgets.clickButton(
+                userProvider.user == null
+                    ? CommonWidgets.clickButton(
                         iconData: Icons.person,
                         context: context,
                         widget: LoginPage(),
-                        title: 'Login'),
+                        title: 'Login')
+                    : _goToAccount(
+                        iconData: Icons.person,
+                        user: userProvider.user,
+                        context: context),
                 SizedBox(
                   height: 10,
                 ),

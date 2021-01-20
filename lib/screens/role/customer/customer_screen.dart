@@ -43,6 +43,7 @@ class CustomerPage extends StatelessWidget {
                 widget: OrderPage(),
                 title: 'Commandes',
               ),
+              logOutButton(title: 'Se deconnecter',context: context,iconData: Icons.logout,widget: NavigationPage(),),
             ]
           ))
         ],
@@ -50,4 +51,52 @@ class CustomerPage extends StatelessWidget {
     );
   }
 
+  Widget logOutButton({IconData iconData,BuildContext context, Widget widget, String title}) {
+    return InkWell(
+      onTap: () => _logOutroute(context, widget),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      iconData,
+                      color: Colors.grey,
+                      size: 25,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      title,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(
+                Icons.chevron_right,
+                size: 30,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static _logOutroute(BuildContext context, Widget widget) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => widget));
+  }
 }
