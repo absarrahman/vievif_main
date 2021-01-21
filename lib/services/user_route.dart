@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vievif/models/user_model.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/admin/admin_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/customer/customer_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/delivery/delivery_screen.dart';
-import 'file:///D:/Projects/DEEPSIGHT/vievifCus/vievif/lib/screens/role/vendor/vendor_screen.dart';
+import 'package:vievif/screens/role/admin/admin_screen.dart';
+import 'package:vievif/screens/role/customer/customer_screen.dart';
+import 'package:vievif/screens/role/delivery/delivery_screen.dart';
+import 'package:vievif/screens/role/vendor/vendor_screen.dart';
+
 
 import 'config.dart';
 
