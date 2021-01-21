@@ -46,7 +46,7 @@ class VendorPage extends StatelessWidget {
                   context: context,
                   iconData: Icons.add,
                   widget: CreateProductPage(user),
-                  title: 'Des produits',
+                  title: 'Ajouter des produits',
                 ),
                 //logOutButton(title: 'Se deconnecter',context: context,iconData: Icons.logout,widget: NavigationPage(),),
               ]
