@@ -12,7 +12,6 @@ import 'package:vievif/widgets/common_widgets.dart';
 class CreateProductPage extends StatefulWidget {
   final UserModel user;
 
-
   CreateProductPage(this.user);
 
   @override
@@ -20,8 +19,6 @@ class CreateProductPage extends StatefulWidget {
 }
 
 class _CreateProductPageState extends State<CreateProductPage> {
-
-
   List<CategoryModel> categories;
   CategoryModel selected;
 
@@ -37,70 +34,99 @@ class _CreateProductPageState extends State<CreateProductPage> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
-    var createProvider = Provider.of<CreateProductProvider>(
-        context, listen: false);
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var createProvider =
+        Provider.of<CreateProductProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CommonWidgets.appbar(),
-      body: categories != null? SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _name(
-                  context: context, productProvider: createProvider, size: size),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _type(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _regularPrice(
-                  context: context, productProvider: createProvider, size: size),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _description(
-                  context: context, productProvider: createProvider, size: size),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _shortDescription(
-                  context: context, productProvider: createProvider, size: size),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _setCategory(),
-            ),
+      body: categories != null
+          ? SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _name(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _type(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _regularPrice(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _description(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _shortDescription(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _setCategory(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _image(
+                        context: context,
+                        productProvider: createProvider,
+                        size: size),
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      createProvider.addCategory(selected.id);
 
-            RaisedButton(onPressed: () async{
-              createProvider.addCategory(selected.id);
+                      bool res = await ApiService().addVendorProducts(
+                          user: widget.user,
+                          id: widget.user.id,
+                          createProductProvider: createProvider);
 
-              bool res = await ApiService().addVendorProducts(user: widget.user, id: widget.user.id,createProductProvider: createProvider);
-
-              if(res) {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SuccessPage()));
-              } else {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FailurePage()));
-              }
-
-
-            },child: Text('Soumettre'),)
-
-          ],
-        ),
-      ) : CommonWidgets.loading(),
+                      if (res) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SuccessPage()));
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FailurePage()));
+                      }
+                    },
+                    child: Text('Soumettre'),
+                    shape: StadiumBorder(),
+                    color: kYellowish,
+                  )
+                ],
+              ),
+            )
+          : CommonWidgets.loading(),
     );
   }
 
   Widget _name(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -117,8 +143,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: "Nom",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           onChanged: (value) {
             productProvider.setName(value);
@@ -130,7 +156,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
   }
 
   Widget _type(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -139,28 +167,24 @@ class _CreateProductPageState extends State<CreateProductPage> {
           ),
         ),
       ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          primaryColor: kRedColor,
+      child: TextField(
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          hintText: "Type",
+          hintStyle: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
-        child: TextField(
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Type",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
-          ),
-          onChanged: (value) {
-            productProvider.setType(value);
-          },
-        ),
+        onChanged: (value) {
+          productProvider.setType(value);
+        },
       ),
       width: size.width,
     );
   }
 
   Widget _regularPrice(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -177,8 +201,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: "Prix habituel",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           onChanged: (value) {
             productProvider.setRegularPrice(value);
@@ -190,7 +214,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
   }
 
   Widget _description(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -207,8 +233,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: "La description",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           onChanged: (value) {
             productProvider.setDescription(value);
@@ -220,7 +246,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
   }
 
   Widget _shortDescription(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -237,8 +265,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: "Brève description",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           onChanged: (value) {
             productProvider.setShortDescription(value);
@@ -250,7 +278,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
   }
 
   Widget _image(
-      {BuildContext context, CreateProductProvider productProvider, Size size}) {
+      {BuildContext context,
+      CreateProductProvider productProvider,
+      Size size}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -266,9 +296,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
         child: TextField(
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Image",
-            hintStyle: TextStyle(
-                color: Colors.grey, fontStyle: FontStyle.italic),
+            hintText: "Lien image",
+            hintStyle:
+                TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           onChanged: (value) {
             productProvider.addImage(value);
@@ -280,15 +310,14 @@ class _CreateProductPageState extends State<CreateProductPage> {
   }
 
   Widget _setCategory() {
-    return  DropdownButton<CategoryModel>(
+    return DropdownButton<CategoryModel>(
       hint: Text('Choisir une option'),
       value: selected,
       icon: Icon(Icons.color_lens_outlined),
       items: categories.map((CategoryModel value) {
         return DropdownMenuItem(
           value: value,
-          child: Text(
-              '${value.name}'),
+          child: Text('${value.name}'),
         );
       }).toList(),
       onChanged: (value) {
@@ -298,6 +327,4 @@ class _CreateProductPageState extends State<CreateProductPage> {
       },
     );
   }
-
-
 }

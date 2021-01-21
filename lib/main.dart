@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => PaymentProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CreateProductProvider(),
+        ),
       ],
       child: MaterialApp(
         home: SplashScreen(),
