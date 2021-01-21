@@ -53,12 +53,14 @@ class CreateProductProvider with ChangeNotifier {
     _categories.add({
       'id':id
     });
+    notifyListeners();
   }
 
   void addImage(String path) {
     _images.add({
       'src': path
     });
+    notifyListeners();
   }
 
 }
