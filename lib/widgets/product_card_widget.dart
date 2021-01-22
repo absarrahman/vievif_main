@@ -49,7 +49,7 @@ class ProductCardWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () => _navigateProductPage(product, context),
           child: Card(
-              elevation: 7,
+              elevation: 4,
               color: kBackgroundWhite,
               borderOnForeground: true,
               child: Stack(

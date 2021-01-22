@@ -17,6 +17,7 @@ class _DescriptionWidgetState extends State<DescriptionWidget> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    print('Description is '+widget.description);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
