@@ -37,6 +37,7 @@ class CartPage extends StatelessWidget {
                               _navigateProductPage(cart.product, context),
                           child: Dismissible(
                             key: UniqueKey(),
+                            direction: DismissDirection.endToStart,
                             background: Container(
                               color: kYellowish,
                               child: Row(

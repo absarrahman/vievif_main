@@ -22,6 +22,7 @@ class WishListPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => _navigateProductPage(product, context),
                   child: Dismissible(
+                    direction: DismissDirection.endToStart,
                     key: UniqueKey(),
                     background: Container(
                       color: kYellowish,
