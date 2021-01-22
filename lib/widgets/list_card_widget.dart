@@ -19,7 +19,7 @@ class ProductListCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
-          width: size.width - 130,
+          width: size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(12),
@@ -101,13 +101,13 @@ class CartListCard extends StatelessWidget {
     final size = MediaQuery
         .of(context)
         .size;
-
+    print('Width ${size.width}');
     return Material(
       elevation: 10,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
-          width: size.width - 130,
+          width: size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(12),

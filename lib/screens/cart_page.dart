@@ -37,6 +37,22 @@ class CartPage extends StatelessWidget {
                               _navigateProductPage(cart.product, context),
                           child: Dismissible(
                             key: UniqueKey(),
+                            background: Container(
+                              color: kYellowish,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.delete,color: kRedColor,),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.delete,color: kRedColor,),
+                                  ),
+                                ],
+                              ),
+                            ),
                             onDismissed: (direction) {
                               cartProvider.removeProduct(index);
                             },
@@ -89,7 +105,9 @@ class CartPage extends StatelessWidget {
               child: Text('Valider la commande',style: TextStyle(
                 color: kSurfaceWhite,
                 fontSize: 15,
-              ),),
+              ),
+                textAlign: TextAlign.center,
+              ),
               shape: StadiumBorder(),
             ),
           )
