@@ -311,7 +311,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   Widget _setCategory() {
     return DropdownButton<CategoryModel>(
-      hint: Text('Choisir une option'),
+      hint: Text('Choisir une catégorie'),
       value: selected,
       icon: Icon(Icons.color_lens_outlined),
       items: categories.map((CategoryModel value) {
