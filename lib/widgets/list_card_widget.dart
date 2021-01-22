@@ -15,7 +15,7 @@ class ProductListCard extends StatelessWidget {
         .size;
 
     return Material(
-      elevation: 10,
+      elevation: 4,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
