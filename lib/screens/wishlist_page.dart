@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vievif/models/product_model.dart';
 import 'package:vievif/provider/wishlist_provider.dart';
 import 'package:vievif/screens/product_details_page.dart';
+import 'package:vievif/utils/colors.dart';
 import 'package:vievif/widgets/common_widgets.dart';
 import 'package:vievif/widgets/list_card_widget.dart';
 
@@ -22,6 +23,22 @@ class WishListPage extends StatelessWidget {
                   onTap: () => _navigateProductPage(product, context),
                   child: Dismissible(
                     key: UniqueKey(),
+                    background: Container(
+                      color: kYellowish,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.delete,color: kRedColor,),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.delete,color: kRedColor,),
+                          ),
+                        ],
+                      ),
+                    ),
                     onDismissed: (direction) {
                       wishlistProvider.removeProduct(product);
                     },
