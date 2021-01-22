@@ -103,7 +103,7 @@ class CartListCard extends StatelessWidget {
         .size;
     print('Width ${size.width}');
     return Material(
-      elevation: 10,
+      elevation: 4,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
@@ -122,7 +122,7 @@ class CartListCard extends StatelessWidget {
                   height: size.width / 2,
                   width: size.width - 30,
                   child: Image.network(
-                    'https:${cart.product.images[0].src}',
+                    'https:${cart.variation.image.src}',
                     fit: BoxFit.cover,
                   ),
                 ),
