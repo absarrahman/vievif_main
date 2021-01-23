@@ -42,10 +42,6 @@ class CartPage extends StatelessWidget {
                               color: kYellowish,
                               child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.delete,color: kRedColor,),
-                                  ),
                                   Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
